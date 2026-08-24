@@ -7,15 +7,6 @@ const PASSWORD_HASH = bcrypt.hashSync('password123', 10);
 const countries = ['US', 'GB', 'DE', 'FR', 'CA', 'AU', 'JP', 'CH', 'SG', 'HK', 'AE', 'MX', 'BR', 'IN', 'NL'];
 const accountTypes = ['checking', 'savings', 'business', 'investment', 'credit'];
 const paymentFormats = ['WIRE', 'TRANSFER', 'CASH_OUT', 'PAYMENT', 'ACH', 'SWIFT', 'SEPA'];
-const ruleCategories = [
-  { cat: 'CTR_THRESHOLD', basis: 'BSA §5313', color: '#ef4444' },
-  { cat: 'VELOCITY', basis: 'FATF R.20', color: '#f97316' },
-  { cat: 'STRUCTURING', basis: '31 CFR 1010.314', color: '#f59e0b' },
-  { cat: 'LAYERING', basis: 'FATF R.16', color: '#06b6d4' },
-  { cat: 'ACCOUNT_RISK', basis: 'FinCEN SAR', color: '#8b5cf6' },
-  { cat: 'CASH', basis: 'BSA §5313', color: '#ec4899' }
-];
-
 function randomDate(start, end) {
   return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
 }
@@ -40,21 +31,12 @@ function generateThreatId() {
   return 'V-' + String(randomInt(1, 9999)).padStart(4, '0');
 }
 
-function generateRuleId(category) {
-  const prefix = category.substring(0, 3).toUpperCase();
-  return `${prefix}-${String(randomInt(1, 999)).padStart(3, '0')}`;
-}
-
 function generateCaseId() {
   return 'CASE-' + String(randomInt(1000, 9999));
 }
 
 const now = Date.now();
 const oneYearAgo = new Date(now - 365 * 24 * 60 * 60 * 1000);
-const sixMonthsAgo = new Date(now - 180 * 24 * 60 * 60 * 1000);
-const oneMonthAgo = new Date(now - 30 * 24 * 60 * 60 * 1000);
-const oneWeekAgo = new Date(now - 7 * 24 * 60 * 60 * 1000);
-const oneDayAgo = new Date(now - 24 * 60 * 60 * 1000);
 
 console.log('Seeding database...');
 
@@ -158,7 +140,7 @@ for (let i = 0; i < 5000; i++) {
   transactions.push({ id, txn_id: txnId, from_account_id: fromId, to_account_id: toId, amount, timestamp, is_laundering: isLaundering, payment_format: format });
 }
 
-console.log(`Seeded ${transactions.length} transactions (${transactions.filter(t => t.is_laundering).flagged} flagged)`);
+console.log(`Seeded ${transactions.length} transactions (${transactions.filter(t => t.is_laundering).length} flagged)`);
 
 const insertRule = db.prepare(`
   INSERT OR IGNORE INTO rules (id, rule_id, category, description, severity, basis, is_active, trigger_count, last_triggered, precision)
@@ -232,7 +214,7 @@ function generateEvidence(ruleId, txn) {
   return templates[ruleId] || 'Suspicious activity detected by AML engine';
 }
 
-function generateRemediation(ruleId, txn) {
+function generateRemediation(ruleId) {
   const templates = {
     'R-001': 'File FinCEN CTR Form 104 within 15 days. Place account under enhanced due diligence monitoring.',
     'R-002': 'File SAR citing structuring. Pattern matches deliberate avoidance of $10,000 CTR trigger.',

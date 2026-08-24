@@ -547,7 +547,7 @@ function NetworkGraph({ onExplain, selectedNode: externalSelected, onSelectNode 
                 })}
               </svg>
               <div style={{ display: "flex", justifyContent: "space-between", color: C.text2, fontSize: 12, marginTop: 8, gap: 12, flexWrap: "wrap" }}>
-                <span>Suspicious cluster highlighted in teal.</span>
+                <span>Suspicious cluster highlighted in blue.</span>
                 <span>Hover or select nodes to inspect connected accounts.</span>
               </div>
             </div>
@@ -935,7 +935,7 @@ function OverviewPage({ openThreat, threatPage, setThreatPage, selectedPeriod, s
 
   return (
     <div className="stagger-grid" style={{ display: "grid", gap: 18 }}>
-      <Card style={{ background: "linear-gradient(135deg, rgba(15,159,154,0.10), rgba(59,130,246,0.06), rgba(139,92,246,0.08), rgba(255,255,255,0.96))" }}>
+      <Card style={{ background: "linear-gradient(135deg, rgba(37,99,235,0.10), rgba(14,165,233,0.06), rgba(124,58,237,0.08), rgba(255,255,255,0.96))" }}>
         <CardContent style={{ padding: 22 }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 16, flexWrap: "wrap" }}>
             <div>
@@ -1413,8 +1413,8 @@ function MobileNav({ page, setPage }) {
   return (
     <div className="mobile-nav" style={{ position: "fixed", left: 0, right: 0, bottom: 0, zIndex: 50, background: "rgba(255,255,255,0.96)", borderTop: `1px solid ${C.border}`, backdropFilter: "blur(16px)", boxShadow: "0 -10px 24px rgba(15, 23, 42, 0.06)", gridTemplateColumns: "repeat(5, minmax(0, 1fr))", padding: 8 }}>
       {items.map((item) => (
-        <button key={item.id} type="button" aria-current={page === item.id ? "page" : undefined} onClick={() => setPage(item.id)} style={{ border: "none", background: page === item.id ? "rgba(15,159,154,0.10)" : "transparent", color: page === item.id ? C.brand : C.text2, borderRadius: 12, padding: "8px 4px", display: "grid", justifyItems: "center", gap: 4, fontSize: 11, fontWeight: 700 }}>
-          <span style={{ width: 26, height: 26, borderRadius: 999, display: "grid", placeItems: "center", background: page === item.id ? C.brand : C.panelAlt, color: page === item.id ? "#fff" : C.text2, boxShadow: page === item.id ? "0 8px 18px rgba(15,159,154,0.18)" : "none", fontSize: 11, fontWeight: 800, letterSpacing: "0.02em" }}>{item.short}</span>
+        <button key={item.id} type="button" aria-current={page === item.id ? "page" : undefined} onClick={() => setPage(item.id)} style={{ border: "none", background: page === item.id ? "rgba(37,99,235,0.10)" : "transparent", color: page === item.id ? C.brand : C.text2, borderRadius: 12, padding: "8px 4px", display: "grid", justifyItems: "center", gap: 4, fontSize: 11, fontWeight: 700 }}>
+          <span style={{ width: 26, height: 26, borderRadius: 999, display: "grid", placeItems: "center", background: page === item.id ? C.brand : C.panelAlt, color: page === item.id ? "#fff" : C.text2, boxShadow: page === item.id ? "0 8px 18px rgba(37,99,235,0.18)" : "none", fontSize: 11, fontWeight: 800, letterSpacing: "0.02em" }}>{item.short}</span>
           <span style={{ whiteSpace: "nowrap" }}>{item.label}</span>
         </button>
       ))}

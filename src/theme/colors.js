@@ -3,32 +3,32 @@
 // ─────────────────────────────────────────────────────────────────────────────
 
 export const C = {
-  bg:        "#F6F8FA",
+  bg:        "#F4F7FB",
   surface:   "#FFFFFF",
-  elevated:  "#FDFDFD",
+  elevated:  "#F8FAFF",
   panel:     "#FFFFFF",
-  panelAlt:  "#F8FAFC",
-  border:    "#E2E8F0",
-  borderHi:  "#CBD5E1",
-  text:      "#172033",
-  text2:     "#64748B",
-  muted:     "#94A3B8",
-  brand:     "#0F9F9A",
-  brandHover:"#087F7B",
+  panelAlt:  "#EEF3FA",
+  border:    "#D8E2EF",
+  borderHi:  "#B6C7DA",
+  text:      "#0F1A2B",
+  text2:     "#5B6E86",
+  muted:     "#8A99AD",
+  brand:     "#2563EB",
+  brandHover:"#1D4ED8",
   sky:       "#38BDF8",
-  violet:    "#8B5CF6",
-  rose:      "#FB7185",
+  violet:    "#7C3AED",
+  rose:      "#F43F5E",
   amberSoft: "#F59E0B",
-  mint:      "#34D399",
-  ai:        "#3B82F6",
-  critical:  "#EF4444",
+  mint:      "#10B981",
+  ai:        "#06B6D4",
+  critical:  "#E11D48",
   high:      "#F97316",
   medium:    "#EAB308",
   resolved:  "#22C55E",
-  info:      "#3B82F6",
-  tealDim:   "#0F9F9A14",
-  blueDim:   "#3B82F614",
-  redDim:    "#EF444414",
+  info:      "#2563EB",
+  tealDim:   "#2563EB14",
+  blueDim:   "#0EA5E914",
+  redDim:    "#E11D4814",
   orangeDim: "#F9731614",
   amberDim:  "#EAB30814",
   greenDim:  "#22C55E14",
@@ -107,7 +107,7 @@ export const GLOBAL_CSS = `
   @keyframes shimmer  { 0%{background-position:-180% 0} 100%{background-position:180% 0} }
   @keyframes pulseDot { 0%,100%{transform:scale(1);opacity:.75} 50%{transform:scale(1.18);opacity:1} }
   @keyframes popIn    { from{opacity:0;transform:translateY(10px) scale(.98)} to{opacity:1;transform:translateY(0) scale(1)} }
-  @keyframes softGlow { 0%,100%{box-shadow:0 0 0 rgba(15,159,154,0)} 50%{box-shadow:0 0 0 6px rgba(15,159,154,0.06)} }
+  @keyframes softGlow { 0%,100%{box-shadow:0 0 0 rgba(37,99,235,0)} 50%{box-shadow:0 0 0 6px rgba(37,99,235,0.06)} }
   @keyframes sweep    { 0%{transform:translateX(-100%)} 100%{transform:translateX(100%)} }
 
   html {
@@ -139,10 +139,10 @@ export const GLOBAL_CSS = `
   input:focus-visible,
   textarea:focus-visible {
     outline: none;
-    box-shadow: 0 0 0 3px rgba(15, 159, 154, 0.14);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.14);
   }
 
-  ::selection { background: rgba(15, 159, 154, 0.18); color: ${C.text}; }
+  ::selection { background: rgba(37, 99, 235, 0.18); color: ${C.text}; }
 
   ::-webkit-scrollbar            { width: 10px; height: 10px; }
   ::-webkit-scrollbar-track      { background: ${C.bg}; }
@@ -156,10 +156,10 @@ export const GLOBAL_CSS = `
     position: relative;
     min-height: 100vh;
     background:
-      radial-gradient(1200px circle at 0% 0%, rgba(15,159,154,0.14), transparent 42%),
-      radial-gradient(900px circle at 100% 0%, rgba(59,130,246,0.10), transparent 34%),
-      radial-gradient(1000px circle at 100% 100%, rgba(139,92,246,0.08), transparent 38%),
-      linear-gradient(180deg, #f9fbff 0%, #f6f8fa 100%);
+      radial-gradient(1200px circle at 0% 0%, rgba(37,99,235,0.14), transparent 42%),
+      radial-gradient(900px circle at 100% 0%, rgba(14,165,233,0.10), transparent 34%),
+      radial-gradient(1000px circle at 100% 100%, rgba(124,58,237,0.08), transparent 38%),
+      linear-gradient(180deg, #f9fbff 0%, #f4f7fb 100%);
     color: ${C.text};
   }
 
@@ -199,16 +199,16 @@ export const GLOBAL_CSS = `
   }
 
   .nav-item:hover {
-    background: rgba(15,159,154,0.05);
+    background: rgba(37,99,235,0.05);
     color: ${C.text};
     transform: translateX(1px);
   }
 
   .nav-item-active {
-    background: rgba(15,159,154,0.10);
+    background: rgba(37,99,235,0.10);
     color: ${C.brand};
-    border-color: rgba(15,159,154,0.18);
-    box-shadow: inset 3px 0 0 ${C.brand}, 0 8px 20px rgba(15,159,154,0.05);
+    border-color: rgba(37,99,235,0.18);
+    box-shadow: inset 3px 0 0 ${C.brand}, 0 8px 20px rgba(37,99,235,0.05);
   }
 
   .soft-card {
@@ -268,12 +268,12 @@ export const GLOBAL_CSS = `
   }
 
   .btn-brand {
-    border: 1px solid rgba(15, 159, 154, 0.18);
+    border: 1px solid rgba(37, 99, 235, 0.18);
     background: ${C.brand};
     color: white;
     border-radius: 10px;
     padding: 10px 14px;
-    box-shadow: 0 8px 24px rgba(15,159,154,0.18);
+    box-shadow: 0 8px 24px rgba(37,99,235,0.18);
   }
 
   .btn-brand:hover {
@@ -353,7 +353,7 @@ export const GLOBAL_CSS = `
     position: absolute;
     inset: 0 0 auto;
     height: 3px;
-    background: linear-gradient(90deg, rgba(15,159,154,0.0), rgba(15,159,154,0.28), rgba(59,130,246,0.22), rgba(139,92,246,0.18), rgba(15,159,154,0.0));
+    background: linear-gradient(90deg, rgba(37,99,235,0.0), rgba(37,99,235,0.28), rgba(14,165,233,0.22), rgba(124,58,237,0.18), rgba(37,99,235,0.0));
     opacity: 0.8;
     pointer-events: none;
   }
@@ -395,8 +395,8 @@ export const GLOBAL_CSS = `
   .shad-input:focus,
   .shad-select:focus,
   .shad-textarea:focus {
-    border-color: rgba(15, 159, 154, 0.55);
-    box-shadow: 0 0 0 3px rgba(15, 159, 154, 0.10);
+    border-color: rgba(37, 99, 235, 0.55);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.10);
   }
 
   .text-mono { font-family: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, monospace; }
@@ -506,7 +506,7 @@ export const GLOBAL_CSS = `
     position: absolute;
     inset: 0;
     width: 38%;
-    background: linear-gradient(90deg, rgba(15,159,154,0), ${C.brand}, ${C.sky}, ${C.violet}, rgba(15,159,154,0));
+    background: linear-gradient(90deg, rgba(37,99,235,0), ${C.brand}, ${C.sky}, ${C.violet}, rgba(37,99,235,0));
     animation: sweep 1.1s linear infinite;
   }
 
@@ -540,7 +540,7 @@ export const GLOBAL_CSS = `
   }
 
   .profile-button:focus-visible {
-    box-shadow: 0 0 0 3px rgba(15,159,154,0.14), ${C.shadowSm};
+    box-shadow: 0 0 0 3px rgba(37,99,235,0.14), ${C.shadowSm};
   }
 
   .profile-modal-overlay {
@@ -566,7 +566,7 @@ export const GLOBAL_CSS = `
 
   .profile-modal-head {
     padding: 22px 24px 16px;
-    background: linear-gradient(135deg, rgba(15,159,154,0.10), rgba(59,130,246,0.08), rgba(139,92,246,0.08));
+    background: linear-gradient(135deg, rgba(37,99,235,0.10), rgba(14,165,233,0.08), rgba(124,58,237,0.08));
     border-bottom: 1px solid ${C.border};
   }
 
@@ -599,8 +599,8 @@ export const GLOBAL_CSS = `
   }
 
   .permission-card[data-on="true"] {
-    border-color: rgba(15,159,154,0.30);
-    background: linear-gradient(180deg, rgba(15,159,154,0.08), rgba(255,255,255,0.98));
+    border-color: rgba(37,99,235,0.30);
+    background: linear-gradient(180deg, rgba(37,99,235,0.08), rgba(255,255,255,0.98));
   }
 
   .skeleton-line {

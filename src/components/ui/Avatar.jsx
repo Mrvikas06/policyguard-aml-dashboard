@@ -21,7 +21,7 @@ export function Avatar({ name = "PG", style, className = "" }) {
         borderRadius: 12,
         display: "grid",
         placeItems: "center",
-        background: "linear-gradient(180deg, #0F9F9A, #087F7B)",
+        background: "linear-gradient(180deg, #2563EB, #1D4ED8)",
         color: "#fff",
         fontWeight: 700,
         fontSize: 13,

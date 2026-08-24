@@ -99,7 +99,7 @@ export function setupWebSocket(io) {
       if (!user) return next(new Error('User not found'));
       socket.user = user;
       next();
-    } catch (e) {
+    } catch {
       next(new Error('Invalid token'));
     }
   });
