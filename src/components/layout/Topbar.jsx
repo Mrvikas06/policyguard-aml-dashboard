@@ -216,7 +216,7 @@ export function Topbar({
                       transition: `background ${C.fast}`,
                     }} onMouseOver={(e) => e.currentTarget.style.background = item.danger ? C.criticalSoft : C.surfaceAlt}
                     onMouseOut={(e) => e.currentTarget.style.background = "transparent"}
-                    }>
+                    >
                       {item.icon}
                       <span>{item.label}</span>
                     </button>

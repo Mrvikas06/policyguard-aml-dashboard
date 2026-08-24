@@ -5,7 +5,7 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 
-import { C, GLOBAL_CSS, SEVER, STATUS, riskColor, riskLabel, cn, formatNumber, formatCurrency, formatRelative, formatTime, formatDate } from "./theme/colors";
+import { C, GLOBAL_CSS, SEVER, STATUS, formatTime, formatDate } from "./theme/colors";
 import { Toast, ToastContainer } from "./components/ui/Toast";
 import { Button } from "./components/ui/Button";
 import { Card, CardHeader, CardContent, CardTitle, CardDescription } from "./components/ui/Card";
@@ -97,7 +97,7 @@ function SectionHeading({ eyebrow, title, description, actions, children }) {
   );
 }
 
-function StatCard({ label, value, trend, trendLabel, period, spark, tone = C.brand, trendColor }) {
+function StatCard({ label, value, trend, period, spark, tone = C.brand, trendColor }) {
   const deltaColor = trendColor || (trend?.startsWith("-") ? C.resolved : trend?.startsWith("+") ? C.critical : C.textDim);
   const trendIcon = trend?.startsWith("-") ? "↓" : trend?.startsWith("+") ? "↑" : "→";
 
@@ -146,7 +146,7 @@ function StatGrid({ stats }) {
 // ─────────────────────────────────────────────────────────────────────────────
 
 function AppContent() {
-  const { user, login, logout, loading: authLoading } = useAuth();
+  const { user, logout, loading: authLoading } = useAuth();
   const [page, setPage] = useState("overview");
   const [search, setSearch] = useState("");
   const [dateFilter, setDateFilter] = useState("Last 24 hours");
@@ -191,7 +191,7 @@ function AppContent() {
     try {
       await api.scans.start({ tables: ["transactions", "accounts", "beneficiaries"] });
       addToast({ message: "Scan completed successfully", type: "success" });
-    } catch (e) {
+    } catch {
       addToast({ message: "Scan failed", type: "error" });
     } finally {
       setGlobalLoading(false);
@@ -214,7 +214,7 @@ function AppContent() {
       case "settings": return <SettingsView />;
       default: return <OverviewView openThreat={openThreat} threatPage={threatPage} setThreatPage={setThreatPage} selectedPeriod={selectedPeriod} setSelectedPeriod={setSelectedPeriod} selectedRiskMetric={selectedRiskMetric} setSelectedRiskMetric={setSelectedRiskMetric} />;
     }
-  }, [page, search, selectedThreat, threatPage, selectedPeriod, selectedRiskMetric, openThreat]);
+  }, [page, search, selectedThreat, threatPage, selectedPeriod, selectedRiskMetric, openThreat, openCase, runScan]);
 
   if (authLoading) {
     return (

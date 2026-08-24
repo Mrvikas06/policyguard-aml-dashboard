@@ -2,7 +2,7 @@
 // Badge — Premium status pill with semantic variants
 // ─────────────────────────────────────────────────────────────────────────────
 
-import { C, styleUtils, cn, riskColor, riskLabel } from "../../theme/colors";
+import { C, cn, riskColor } from "../../theme/colors";
 
 const SEVERITY_MAP = {
   critical: C.critical,

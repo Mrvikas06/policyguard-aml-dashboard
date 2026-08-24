@@ -3,13 +3,13 @@
 // ─────────────────────────────────────────────────────────────────────────────
 
 import { useState, useEffect } from "react";
-import { C, formatNumber, formatCurrency, formatRelative, cn } from "../theme/colors";
+import { C, formatCurrency, formatRelative } from "../theme/colors";
 import { Button } from "../components/ui/Button";
 import { Card, CardHeader, CardContent, CardTitle, CardDescription } from "../components/ui/Card";
 import { Input } from "../components/ui/Input";
 import { Select } from "../components/ui/Select";
 import { Badge } from "../components/ui/Badge";
-import { SectionHeading } from "../App";
+import { SectionHeading } from "../components/shared";
 import { api } from "../services/api";
 
 export function TransactionsView({ search, openThreat }) {

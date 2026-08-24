@@ -3,12 +3,12 @@
 // ─────────────────────────────────────────────────────────────────────────────
 
 import { useState, useEffect } from "react";
-import { C, formatNumber, cn } from "../theme/colors";
+import { C, formatNumber } from "../theme/colors";
 import { Button } from "../components/ui/Button";
 import { Card, CardHeader, CardContent, CardTitle, CardDescription } from "../components/ui/Card";
 import { Badge } from "../components/ui/Badge";
 import { Progress } from "../components/ui/Progress";
-import { SectionHeading } from "../App";
+import { SectionHeading } from "../components/shared";
 import { api } from "../services/api";
 
 export function PoliciesView() {

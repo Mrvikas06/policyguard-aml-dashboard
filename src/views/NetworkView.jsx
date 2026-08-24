@@ -3,12 +3,12 @@
 // ─────────────────────────────────────────────────────────────────────────────
 
 import { useState, useEffect, useMemo } from "react";
-import { C, formatNumber, formatCurrency, formatRelative, cn } from "../theme/colors";
+import { C, formatNumber, formatCurrency, formatRelative } from "../theme/colors";
 import { Button } from "../components/ui/Button";
 import { Card, CardHeader, CardContent, CardTitle, CardDescription } from "../components/ui/Card";
 import { Input } from "../components/ui/Input";
 import { Badge } from "../components/ui/Badge";
-import { SectionHeading } from "../App";
+import { SectionHeading } from "../components/shared";
 import { api } from "../services/api";
 
 export function NetworkView() {

@@ -9,7 +9,7 @@ import { Card, CardHeader, CardContent, CardTitle, CardDescription } from "../co
 import { Badge } from "../components/ui/Badge";
 import { Input } from "../components/ui/Input";
 import { Select } from "../components/ui/Select";
-import { SectionHeading } from "../App";
+import { SectionHeading } from "../components/shared";
 import { api } from "../services/api";
 
 export function AuditView() {
@@ -71,15 +71,17 @@ export function AuditView() {
               {auditLogs.length === 0 ? (
                 <div style={{ padding: 40, textAlign: "center", color: C.textDim }}>No audit entries found</div>
               ) : (
-                auditLogs.map((entry) => (
-                  <div key={entry.id} style={{ padding: 14, border: `1px solid ${C.border}`, borderRadius: C.radius, background: C.surface, display: "flex", justifyContent: "space-between", gap: 12, flexWrap: "wrap" }}>
-                    <div style={{ flex: 1, minWidth: 200 }}>
-                      <div style={{ color: C.text, fontWeight: 600 }}>{entry.action}</div>
-                      <div style={{ color: C.textDim, fontSize: 12, marginTop: 4 }}>{entry.actor} · {entry.entity_type || "system"}</div>
+                <>
+                  {auditLogs.map((entry) => (
+                    <div key={entry.id} style={{ padding: 14, border: `1px solid ${C.border}`, borderRadius: C.radius, background: C.surface, display: "flex", justifyContent: "space-between", gap: 12, flexWrap: "wrap" }}>
+                      <div style={{ flex: 1, minWidth: 200 }}>
+                        <div style={{ color: C.text, fontWeight: 600 }}>{entry.action}</div>
+                        <div style={{ color: C.textDim, fontSize: 12, marginTop: 4 }}>{entry.actor} · {entry.entity_type || "system"}</div>
+                      </div>
+                      <Badge variant="soft" color={C.ai} size="sm">{formatRelative(entry.timestamp)}</Badge>
                     </div>
-                    <Badge variant="soft" color={C.ai} size="sm">{formatRelative(entry.timestamp)}</Badge>
-                  </div>
-                ))}
+                  ))}
+                </>
               )}
             </div>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: 16 }}>

@@ -10,7 +10,7 @@ import { Input } from "../components/ui/Input";
 import { Badge } from "../components/ui/Badge";
 import { Progress } from "../components/ui/Progress";
 import { Separator } from "../components/ui/Separator";
-import { SectionHeading } from "../App";
+import { SectionHeading } from "../components/shared";
 import { api } from "../services/api";
 
 export function InvestigationView({ threat, onClose }) {

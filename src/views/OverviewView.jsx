@@ -9,9 +9,10 @@ import { Card, CardHeader, CardContent, CardTitle, CardDescription } from "../co
 import { Progress } from "../components/ui/Progress";
 import { Tabs } from "../components/ui/Tabs";
 import { Badge } from "../components/ui/Badge";
-import { StatGrid, StatCard, SectionHeading, BrandMark, DonutScore, AnalyticsChart, DistributionCard } from "../App";
 
-export function OverviewView({ openThreat, threatPage, setThreatPage, selectedPeriod, setSelectedPeriod, selectedRiskMetric, setSelectedRiskMetric }) {
+const QUICK_FILTERS = ["Today", "24 hours", "7 days", "30 days", "Custom"];
+
+export function OverviewView({ openThreat, threatPage, setThreatPage, selectedPeriod, setSelectedPeriod, selectedRiskMetric, setSelectedRiskMetric, setPage }) {
   const [kpis, setKpis] = useState([]);
   const [riskDistribution, setRiskDistribution] = useState([]);
   const [overviewSeries, setOverviewSeries] = useState([]);

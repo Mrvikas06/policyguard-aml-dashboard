@@ -13,8 +13,6 @@ export function Input({
   className = "",
   ...props
 }) {
-  const isFocused = props.onFocus || props.onBlur;
-  
   return (
     <div style={{ position: "relative", width: "100%", minWidth: 0, display: "flex", alignItems: "center" }}>
       {leftIcon && (

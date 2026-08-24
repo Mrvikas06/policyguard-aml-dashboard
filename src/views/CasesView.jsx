@@ -7,7 +7,7 @@ import { C, formatNumber, formatCurrency, formatRelative, cn } from "../theme/co
 import { Button } from "../components/ui/Button";
 import { Card, CardHeader, CardContent, CardTitle, CardDescription } from "../components/ui/Card";
 import { Badge } from "../components/ui/Badge";
-import { SectionHeading } from "../App";
+import { SectionHeading } from "../components/shared";
 import { api } from "../services/api";
 
 export function CasesView({ openCase }) {
@@ -124,7 +124,7 @@ export function CasesView({ openCase }) {
                 <Button variant="outline" size="sm" onClick={() => setPage(Math.max(1, page - 1))} disabled={page <= 1}>Previous</Button>
                 <Button variant="outline" size="sm" onClick={() => setPage(Math.min(totalPages, page + 1))} disabled={page >= totalPages}>Next</Button>
               </div>
-            </div          </CardContent>
+            </div>          </CardContent>
         </Card>
 
         <Card>

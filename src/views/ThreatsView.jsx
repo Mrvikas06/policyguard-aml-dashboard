@@ -3,15 +3,14 @@
 // ─────────────────────────────────────────────────────────────────────────────
 
 import { useState, useEffect, useMemo } from "react";
-import { C, riskColor, riskLabel, cn, formatNumber, formatCurrency, formatRelative } from "../theme/colors";
+import { C, riskColor, formatCurrency, formatRelative } from "../theme/colors";
 import { Button } from "../components/ui/Button";
 import { Card, CardHeader, CardContent, CardTitle, CardDescription } from "../components/ui/Card";
-import { Input } from "../components/ui/Input";
 import { Select } from "../components/ui/Select";
 import { Badge } from "../components/ui/Badge";
 import { Progress } from "../components/ui/Progress";
 import { Tabs } from "../components/ui/Tabs";
-import { SectionHeading } from "../App";
+import { SectionHeading } from "../components/shared";
 import { api } from "../services/api";
 
 export function ThreatsView({ search, threatPage, setThreatPage, openThreat }) {
@@ -39,7 +38,6 @@ export function ThreatsView({ search, threatPage, setThreatPage, openThreat }) {
         setTotalThreats(res.pagination?.total || 0);
       } catch (e) {
         console.error("Failed to load threats:", e);
-        // Fallback mock data
         setThreats(Array.from({ length: 10 }, (_, i) => ({
           id: i,
           threat_id: `V-${String(i + 1).padStart(4, "0")}`,
@@ -132,6 +130,6 @@ export function ThreatsView({ search, threatPage, setThreatPage, openThreat }) {
           </div>
         </CardContent>
       </Card>
-    );
+    </div>
   );
 }

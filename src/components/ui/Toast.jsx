@@ -3,13 +3,16 @@
 // ─────────────────────────────────────────────────────────────────────────────
 
 import { useEffect, useState } from "react";
-import { C, cn, styleUtils } from "../../theme/colors";
+import { C, cn } from "../../theme/colors";
 
 export function Toast({ toast, onClose }) {
-  const [visible, setVisible] = useState(true);
+  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    if (!toast) { setVisible(false); return; }
+    if (!toast) { 
+      setVisible(false); 
+      return; 
+    }
     setVisible(true);
     const timer = setTimeout(() => {
       setVisible(false);
@@ -18,7 +21,7 @@ export function Toast({ toast, onClose }) {
     return () => clearTimeout(timer);
   }, [toast, onClose]);
 
-  if (!visible || !toast) return null;
+  if (!toast || !visible) return null;
 
   const colors = {
     info: C.brand,

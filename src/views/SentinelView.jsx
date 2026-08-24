@@ -2,13 +2,13 @@
 // Sentinel View — Live monitoring dashboard
 // ─────────────────────────────────────────────────────────────────────────────
 
-import { useState, useEffect, useMemo } from "react";
-import { C, cn, formatNumber } from "../theme/colors";
+import { useState, useEffect } from "react";
+import { C, cn } from "../theme/colors";
 import { Button } from "../components/ui/Button";
 import { Card, CardHeader, CardContent, CardTitle, CardDescription } from "../components/ui/Card";
 import { Progress } from "../components/ui/Progress";
 import { Badge } from "../components/ui/Badge";
-import { SectionHeading } from "../App";
+import { SectionHeading } from "../components/shared";
 
 export function SentinelView() {
   const [health, setHealth] = useState({
@@ -16,6 +16,11 @@ export function SentinelView() {
     model_status: "Healthy",
     pipeline_status: "Stable",
     latency: 128,
+    queue_count: 0,
+    cpu_usage: 30,
+    memory_usage: 45,
+    disk_io: 10,
+    network_usage: 5,
   });
   const [detectionStats, setDetectionStats] = useState({
     ingestion: 95,
@@ -30,10 +35,16 @@ export function SentinelView() {
     // Simulate live data updates
     const interval = setInterval(() => {
       setHealth(prev => ({
+        ...prev,
         system_health: Math.max(99.5, Math.min(100, prev.system_health + (Math.random() - 0.5) * 0.4)),
         model_status: Math.random() > 0.02 ? "Healthy" : "Degraded",
         pipeline_status: Math.random() > 0.05 ? "Stable" : "Backlog",
         latency: Math.floor(100 + Math.random() * 100),
+        queue_count: Math.max(0, Math.min(100, prev.queue_count + Math.floor((Math.random() - 0.5) * 10))),
+        cpu_usage: Math.max(10, Math.min(80, prev.cpu_usage + Math.floor((Math.random() - 0.5) * 10))),
+        memory_usage: Math.max(20, Math.min(90, prev.memory_usage + Math.floor((Math.random() - 0.5) * 10))),
+        disk_io: Math.max(0, Math.min(50, prev.disk_io + Math.floor((Math.random() - 0.5) * 10))),
+        network_usage: Math.max(0, Math.min(30, prev.network_usage + Math.floor((Math.random() - 0.5) * 5))),
       }));
       setDetectionStats(prev => ({
         ingestion: Math.max(80, Math.min(100, prev.ingestion + (Math.random() - 0.5) * 10)),
@@ -57,8 +68,9 @@ export function SentinelView() {
       setLiveFeed(prev => [newTxn, ...prev.slice(0, 19)]);
     }, 3000);
 
-    setConnected(true);
-    return () => { clearInterval(interval); setConnected(false); };
+    // Set connected after first interval tick
+    const connectTimer = setTimeout(() => setConnected(true), 100);
+    return () => { clearInterval(interval); clearTimeout(connectTimer); setConnected(false); };
   }, []);
 
   return (
@@ -99,7 +111,7 @@ export function SentinelView() {
               <div style={{ width: 10, height: 10, borderRadius: "50%", background: health.pipeline_status === "Stable" ? C.resolved : C.high }} />
               <div style={{ color: health.pipeline_status === "Stable" ? C.resolved : C.high, fontSize: 20, fontWeight: 700 }}>{health.pipeline_status}</div>
             </div>
-            <div style={{ color: C.textDim, fontSize: 12 }}>Queue: {Math.floor(Math.random() * 50)} pending</div>
+            <div style={{ color: C.textDim, fontSize: 12 }}>Queue: {health.queue_count} pending</div>
           </CardContent>
         </Card>
 
@@ -184,19 +196,19 @@ export function SentinelView() {
           <CardContent style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 12 }}>
             <div className="card" style={{ padding: 16, textAlign: "center" }}>
               <div style={{ color: C.textDim, fontSize: 11, fontWeight: 700, textTransform: "uppercase" }}>CPU Usage</div>
-              <div style={{ color: C.brand, fontSize: 28, fontWeight: 800, marginTop: 4 }}>{Math.floor(30 + Math.random() * 20)}%</div>
+              <div style={{ color: C.brand, fontSize: 28, fontWeight: 800, marginTop: 4 }}>{health.cpu_usage}%</div>
             </div>
             <div className="card" style={{ padding: 16, textAlign: "center" }}>
               <div style={{ color: C.textDim, fontSize: 11, fontWeight: 700, textTransform: "uppercase" }}>Memory</div>
-              <div style={{ color: C.ai, fontSize: 28, fontWeight: 800, marginTop: 4 }}>{Math.floor(45 + Math.random() * 20)}%</div>
+              <div style={{ color: C.ai, fontSize: 28, fontWeight: 800, marginTop: 4 }}>{health.memory_usage}%</div>
             </div>
             <div className="card" style={{ padding: 16, textAlign: "center" }}>
               <div style={{ color: C.textDim, fontSize: 11, fontWeight: 700, textTransform: "uppercase" }}>Disk I/O</div>
-              <div style={{ color: C.high, fontSize: 28, fontWeight: 800, marginTop: 4 }}>{Math.floor(10 + Math.random() * 15)}%</div>
+              <div style={{ color: C.high, fontSize: 28, fontWeight: 800, marginTop: 4 }}>{health.disk_io}%</div>
             </div>
             <div className="card" style={{ padding: 16, textAlign: "center" }}>
               <div style={{ color: C.textDim, fontSize: 11, fontWeight: 700, textTransform: "uppercase" }}>Network</div>
-              <div style={{ color: C.resolved, fontSize: 28, fontWeight: 800, marginTop: 4 }}>{Math.floor(5 + Math.random() * 10)}%</div>
+              <div style={{ color: C.resolved, fontSize: 28, fontWeight: 800, marginTop: 4 }}>{health.network_usage}%</div>
             </div>
           </CardContent>
         </Card>
