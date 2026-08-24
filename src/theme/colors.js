@@ -4,9 +4,9 @@
 
 export const C = {
   bg:        "#F4F7FB",
-  surface:   "#FFFFFF",
-  elevated:  "#F8FAFF",
-  panel:     "#FFFFFF",
+  surface:   "#FAFAFC",
+  elevated:  "#F5F7FF",
+  panel:     "#FAFAFC",
   panelAlt:  "#EEF3FA",
   border:    "#D8E2EF",
   borderHi:  "#B6C7DA",
@@ -211,8 +211,8 @@ export const GLOBAL_CSS = `
     box-shadow: inset 3px 0 0 ${C.brand}, 0 8px 20px rgba(37,99,235,0.05);
   }
 
-  .soft-card {
-    background: linear-gradient(180deg, rgba(255,255,255,0.98) 0%, rgba(248,250,252,0.93) 100%);
+.soft-card {
+    background: linear-gradient(180deg, rgba(255,255,255,0.98) 0%, rgba(245,247,255,0.95) 100%);
     border: 1px solid ${C.border};
     border-radius: 14px;
     box-shadow: ${C.shadowSm};
@@ -222,7 +222,7 @@ export const GLOBAL_CSS = `
   }
 
   .soft-card-elevated {
-    background: linear-gradient(180deg, rgba(255,255,255,0.98) 0%, rgba(243,246,255,0.96) 100%);
+    background: linear-gradient(180deg, rgba(255,255,255,0.99) 0%, rgba(240,243,255,0.98) 100%);
     border: 1px solid ${C.border};
     border-radius: 14px;
     box-shadow: ${C.shadow};
@@ -232,7 +232,7 @@ export const GLOBAL_CSS = `
   }
 
   .metric-card {
-    background: linear-gradient(180deg, rgba(255,255,255,0.98) 0%, rgba(250,252,255,0.95) 100%);
+    background: linear-gradient(180deg, rgba(255,255,255,0.99) 0%, rgba(248,250,255,0.96) 100%);
     border: 1px solid ${C.border};
     border-radius: 14px;
     box-shadow: ${C.shadowSm};

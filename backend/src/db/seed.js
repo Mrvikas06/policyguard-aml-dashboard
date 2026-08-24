@@ -23,8 +23,10 @@ function generateAccountNumber() {
   return 'ACC-' + String(randomInt(1000, 9999));
 }
 
+let txnCounter = 0;
 function generateTxnId() {
-  return 'TXN-' + String(randomInt(10000, 99999));
+  txnCounter++;
+  return 'TXN-' + String(100000 + txnCounter).slice(1);
 }
 
 function generateThreatId() {
@@ -85,10 +87,13 @@ for (let i = 0; i < 200; i++) {
 
 console.log(`Seeded ${accounts.length} accounts`);
 
-const accountIds = accounts.map(a => a.id);
+// Get actual account IDs from DB (in case OR IGNORE skipped some)
+const dbAccounts = db.prepare('SELECT id, account_number FROM accounts').all();
+const accountIds = dbAccounts.map(a => a.id);
+console.log(`DB has ${accountIds.length} accounts, using DB IDs for transactions`);
 
 const insertTransaction = db.prepare(`
-  INSERT OR IGNORE INTO transactions (id, txn_id, from_account_id, to_account_id, amount, currency, payment_format, timestamp, is_laundering)
+  INSERT INTO transactions (id, txn_id, from_account_id, to_account_id, amount, currency, payment_format, timestamp, is_laundering)
   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
 `);
 

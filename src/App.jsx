@@ -158,13 +158,13 @@ function DonutScore({ score, label, detail }) {
           <div style={{ color: C.text, fontWeight: 700, fontSize: 16 }}>AML Risk Score</div>
           <div style={{ color: C.text2, fontSize: 13, marginTop: 3 }}>{detail}</div>
         </div>
-        <Badge col={score >= 70 ? C.high : score >= 50 ? C.medium : C.critical} sm>{label}</Badge>
+        <Badge col={score >= 70 ? C.critical : score >= 50 ? C.high : score >= 30 ? C.medium : C.resolved} sm>{label}</Badge>
       </div>
       <div style={{ display: "grid", gridTemplateColumns: "120px 1fr", gap: 20, alignItems: "center" }}>
         <div style={{ position: "relative", width: 120, height: 120, margin: "0 auto" }}>
           <svg width="120" height="120" viewBox="0 0 120 120">
             <circle cx="60" cy="60" r={radius} fill="none" stroke={C.panelAlt} strokeWidth={stroke} />
-            <circle cx="60" cy="60" r={radius} fill="none" stroke={score >= 70 ? C.high : score >= 50 ? C.medium : C.critical} strokeWidth={stroke} strokeLinecap="round" strokeDasharray={circumference} strokeDashoffset={offset} transform="rotate(-90 60 60)" />
+            <circle cx="60" cy="60" r={radius} fill="none" stroke={score >= 70 ? C.critical : score >= 50 ? C.high : score >= 30 ? C.medium : C.resolved} strokeWidth={stroke} strokeLinecap="round" strokeDasharray={circumference} strokeDashoffset={offset} transform="rotate(-90 60 60)" />
           </svg>
           <div style={{ position: "absolute", inset: 0, display: "grid", placeItems: "center", textAlign: "center" }}>
             <div style={{ fontSize: 28, fontWeight: 800, letterSpacing: "-0.04em", color: C.text }}>{normalized}%</div>
