@@ -1,34 +1,54 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// Progress — simple animated progress bar
+// Progress — Animated progress bar with semantic colors
 // ─────────────────────────────────────────────────────────────────────────────
 
-import { C } from "../../theme/colors";
+import { C, styleUtils, cn, riskColor } from "../../theme/colors";
 
-export function Progress({ value = 0, color = C.brand, height = 8, style, className = "" }) {
+export function Progress({
+  value = 0,
+  color,
+  riskScore,
+  severity,
+  height = 8,
+  showLabel = false,
+  label,
+  style,
+  className = "",
+  ...props
+}) {
   const pct = Math.max(0, Math.min(100, value));
+  
+  let progressColor = color;
+  if (riskScore !== undefined) progressColor = riskColor(riskScore);
+  else if (severity) progressColor = C[severity] || C.brand;
+  else if (!progressColor) progressColor = C.brand;
 
   return (
     <div
-      className={className}
+      {...props}
+      className={cn("progress", className)}
       style={{
-        width: "100%",
-        height,
-        background: C.panelAlt,
-        borderRadius: 999,
-        overflow: "hidden",
-        border: `1px solid ${C.border}`,
+        ...styleUtils.progress(progressColor, height),
         ...style,
       }}
+      role="progressbar"
+      aria-valuenow={pct}
+      aria-valuemin={0}
+      aria-valuemax={100}
+      aria-label={label || `Progress: ${pct}%`}
     >
       <div
+        className="progress-fill"
         style={{
+          ...styleUtils.progressFill(progressColor),
           width: `${pct}%`,
-          height: "100%",
-          background: color,
-          borderRadius: 999,
-          transition: "width .25s ease",
         }}
       />
+      {showLabel && (
+        <div style={{ marginTop: 6, fontSize: 11.5, color: C.textDim, textAlign: "right" }}>
+          {label || `${Math.round(pct)}%`}
+        </div>
+      )}
     </div>
   );
 }

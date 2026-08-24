@@ -1,20 +1,22 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// Select — refined select primitive
+// Select — Premium dropdown with consistent styling
 // ─────────────────────────────────────────────────────────────────────────────
 
-import { C } from "../../theme/colors";
+import { C, styleUtils, cn } from "../../theme/colors";
 
-export function Select({ style, className = "", children, ...props }) {
+export function Select({ error = false, disabled = false, style, className = "", children, ...props }) {
   return (
     <select
       {...props}
-      className={`shad-select ${className}`.trim()}
+      disabled={disabled}
+      className={cn("select", className)}
       style={{
-        width: "100%",
-        minWidth: 0,
-        padding: "11px 36px 11px 12px",
-        fontSize: 13,
-        color: C.text,
+        ...styleUtils.select,
+        background: disabled ? C.surfaceAlt : C.surface,
+        color: disabled ? C.textMuted : C.text,
+        borderColor: error ? C.critical : undefined,
+        opacity: disabled ? 0.6 : 1,
+        cursor: disabled ? "not-allowed" : "pointer",
         ...style,
       }}
     >

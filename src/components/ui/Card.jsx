@@ -1,17 +1,19 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// Card — clean enterprise surface container
+// Card — Premium surface container with consistent styling
 // ─────────────────────────────────────────────────────────────────────────────
 
-import { C } from "../../theme/colors";
+import { C, styleUtils, cn } from "../../theme/colors";
 
-export function Card({ children, style, className = "", ...props }) {
+const baseCard = styleUtils.glass(false);
+const elevatedCard = styleUtils.glass(true);
+
+export function Card({ children, elevated = false, interactive = false, style, className = "", ...props }) {
   return (
     <div
       {...props}
-      className={`soft-card ${className}`.trim()}
+      className={cn("card", interactive ? "card-interactive" : "", elevated ? "card-elevated" : "", className)}
       style={{
-        borderRadius: 16,
-        overflow: "clip",
+        ...(elevated ? elevatedCard : baseCard),
         ...style,
       }}
     >
@@ -43,9 +45,10 @@ export function CardTitle({ children, style, className = "", ...props }) {
       className={className}
       style={{
         color: C.text,
-        fontSize: 16,
+        fontSize: 16.5,
         fontWeight: 700,
-        letterSpacing: "-0.01em",
+        letterSpacing: "-0.02em",
+        lineHeight: 1.2,
         ...style,
       }}
     >
@@ -60,9 +63,9 @@ export function CardDescription({ children, style, className = "", ...props }) {
       {...props}
       className={className}
       style={{
-        color: C.text2,
-        fontSize: 11,
-        marginTop: 4,
+        color: C.textDim,
+        fontSize: 12.5,
+        marginTop: 5,
         lineHeight: 1.5,
         ...style,
       }}

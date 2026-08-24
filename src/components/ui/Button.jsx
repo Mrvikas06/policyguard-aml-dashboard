@@ -1,97 +1,67 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// Button — premium enterprise action control
+// Button — Premium action control with full variant support
 // ─────────────────────────────────────────────────────────────────────────────
 
-import { C } from "../../theme/colors";
+import { C, styleUtils, cn } from "../../theme/colors";
 
-const base = {
-  display: "inline-flex",
-  alignItems: "center",
-  justifyContent: "center",
-  gap: 8,
-  borderRadius: 10,
-  border: "1px solid transparent",
-  fontSize: 13,
-  fontWeight: 600,
-  letterSpacing: "0.01em",
-  lineHeight: 1,
-  padding: "10px 14px",
-  transition: "transform .16s ease, box-shadow .16s ease, background .16s ease, border-color .16s ease, color .16s ease",
-  boxShadow: C.shadowSm,
-  cursor: "pointer",
-  userSelect: "none",
-  whiteSpace: "nowrap",
-};
-
-const variants = {
-  default: (col) => ({
-    background: `linear-gradient(135deg, ${col.start}, ${col.end})`,
-    color: col.text || "#fff",
-    borderColor: `${col.start}88`,
-    boxShadow: `0 10px 24px ${col.start}1A`,
-  }),
-  secondary: () => ({
-    background: "linear-gradient(180deg, #fff, #f8fafc)",
-    color: C.text,
-    borderColor: C.border,
-  }),
-  outline: (col) => ({
-    background: "#fff",
-    color: col.text || col.start,
-    borderColor: C.border,
-  }),
-  ghost: (col) => ({
-    background: "transparent",
-    color: col.text || col.start,
-    borderColor: "transparent",
-    boxShadow: "none",
-  }),
-};
+const base = styleUtils.btnBase;
 
 export function Button({
-  variant = "default",
-  tone = "teal",
+  variant = "primary",
   size = "md",
   block = false,
+  loading = false,
+  disabled = false,
   style,
   className = "",
   type = "button",
   children,
+  onClick,
   ...props
 }) {
-  const palette = {
-    teal: { start: C.brand, end: C.brandHover, text: "#fff" },
-    amber: { start: C.high, end: C.high, text: "#fff" },
-    red: { start: C.critical, end: C.critical, text: "#fff" },
-    slate: { start: C.panelAlt, end: C.text2, text: C.text },
-    blue: { start: C.ai, end: C.ai, text: "#fff" },
-    sky: { start: C.sky, end: C.ai, text: "#fff" },
-    violet: { start: C.violet, end: "#6D28D9", text: "#fff" },
-    rose: { start: C.rose, end: "#E11D48", text: "#fff" },
-    mint: { start: C.mint, end: "#14B8A6", text: "#fff" },
-  }[tone] || { start: C.brand, end: C.brandHover, text: "#fff" };
-
   const sizes = {
-    sm: { padding: "8px 12px", fontSize: 12, borderRadius: 10 },
-    md: { padding: "10px 14px", fontSize: 13, borderRadius: 10 },
-    lg: { padding: "12px 16px", fontSize: 14, borderRadius: 12 },
+    sm: { padding: "7px 12px", fontSize: 12, borderRadius: C.radiusSm, gap: 6 },
+    md: { padding: "10px 16px", fontSize: 13, borderRadius: C.radius, gap: 8 },
+    lg: { padding: "13px 20px", fontSize: 14, borderRadius: C.radiusLg, gap: 10 },
   };
+
+  const variantStyles = {
+    primary: styleUtils.btnPrimary(disabled || loading),
+    secondary: styleUtils.btnSecondary(disabled || loading),
+    outline: styleUtils.btnOutline(C.brand, disabled || loading),
+    ghost: styleUtils.btnGhost(C.textDim, disabled || loading),
+    danger: styleUtils.btnDanger(disabled || loading),
+    accent: styleUtils.btnPrimary(disabled || loading), // reuse primary with accent color via style override
+  };
+
+  const variantStyle = variantStyles[variant] || variantStyles.primary;
+
+  // Override accent color if variant is accent
+  const finalStyle = variant === "accent" 
+    ? { ...variantStyle, background: disabled || loading ? `${C.accent}66` : C.accent, borderColor: disabled || loading ? "transparent" : C.accent }
+    : variantStyle;
 
   return (
     <button
       type={type}
-      {...props}
-      className={`pg-button ${className}`.trim()}
-      data-variant={variant}
-      data-tone={tone}
+      disabled={disabled || loading}
+      onClick={onClick}
+      className={cn("btn", className)}
       style={{
         ...base,
         ...sizes[size],
-        ...variants[variant](palette),
+        ...finalStyle,
         width: block ? "100%" : "auto",
-        ...(style || {}),
+        ...style,
       }}
+      {...props}
     >
+      {loading && (
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" style={{ animation: "spin 1s linear infinite" }}>
+          <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" strokeOpacity="0.25" fill="none" />
+          <path d="M12 2a10 10 0 0 1 10 10" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
+        </svg>
+      )}
       {children}
     </button>
   );
