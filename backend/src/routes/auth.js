@@ -36,7 +36,7 @@ router.post('/login', strictRateLimiter(5, 15 * 60 * 1000), (req, res, next) => 
     db.prepare('UPDATE users SET last_login_at = ? WHERE id = ?').run(Date.now(), user.id);
     
     const token = generateToken(user);
-    const { password_hash, ...userSafe } = user;
+    const { password_hash: _passwordHash, ...userSafe } = user;
     
     res.json({ token, user: userSafe });
   } catch (e) {
@@ -71,7 +71,7 @@ router.post('/register', authenticateToken, (req, res, next) => {
 });
 
 router.get('/me', authenticateToken, (req, res) => {
-  const { password_hash, ...userSafe } = req.user;
+  const { password_hash: _passwordHash, ...userSafe } = req.user;
   res.json({ user: userSafe });
 });
 

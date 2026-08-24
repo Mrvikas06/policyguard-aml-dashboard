@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { VIOLATIONS, LIVE_TXNS, AML_RULES, HIGH_RISK_PAIRS, DB_TABLES } from "./data/violations";
 import { C, GLOBAL_CSS, SEVER, STATUS } from "./theme/colors";
@@ -1437,6 +1437,7 @@ export default function App() {
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
   const [clock, setClock] = useState(new Date());
   const [pageBusy, setPageBusy] = useState(true);
+  const pageBusyTimerRef = useRef(null);
 
   useEffect(() => {
     const timer = setInterval(() => setClock(new Date()), 15000);
@@ -1444,10 +1445,13 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    setPageBusy(true);
-    const timer = setTimeout(() => setPageBusy(false), 220);
-    return () => clearTimeout(timer);
-  }, [page]);
+    pageBusyTimerRef.current = window.setTimeout(() => setPageBusy(false), 220);
+    return () => {
+      if (pageBusyTimerRef.current) {
+        window.clearTimeout(pageBusyTimerRef.current);
+      }
+    };
+  }, []);
 
   useEffect(() => {
     if (!toast) return undefined;
@@ -1455,17 +1459,26 @@ export default function App() {
     return () => clearTimeout(timer);
   }, [toast]);
 
-  useEffect(() => {
-    if (profileOpen) {
-      setProfileDraft(profile);
+  useEffect(() => () => {
+    if (pageBusyTimerRef.current) {
+      window.clearTimeout(pageBusyTimerRef.current);
     }
-  }, [profileOpen, profile]);
+  }, []);
+
+  const navigatePage = useCallback((nextPage) => {
+    setPageBusy(true);
+    if (pageBusyTimerRef.current) {
+      window.clearTimeout(pageBusyTimerRef.current);
+    }
+    setPage(nextPage);
+    pageBusyTimerRef.current = window.setTimeout(() => setPageBusy(false), 220);
+  }, []);
 
   const openThreat = useCallback((threat) => {
     setSelectedThreat(threat);
-    setPage("investigation");
+    navigatePage("investigation");
     setToast({ msg: `${threat.id} opened in investigation workspace`, col: C.brand });
-  }, []);
+  }, [navigatePage]);
 
   const openProfileEditor = useCallback(() => {
     setProfileDraft(profile);
@@ -1503,7 +1516,7 @@ export default function App() {
 
       <div className="app-layout" style={{ display: "grid", minHeight: "100vh" }}>
         <div className="desktop-sidebar" style={{ position: "sticky", top: 0, height: "100vh" }}>
-          <Sidebar page={page} setPage={setPage} />
+          <Sidebar page={page} setPage={navigatePage} />
         </div>
 
         <div style={{ minWidth: 0, paddingBottom: 96 }}>
@@ -1532,8 +1545,8 @@ export default function App() {
         </div>
       </div>
 
-      <MobileDrawer open={mobileDrawerOpen} onClose={() => setMobileDrawerOpen(false)} page={page} setPage={setPage} />
-      <MobileNav page={page} setPage={setPage} />
+      <MobileDrawer open={mobileDrawerOpen} onClose={() => setMobileDrawerOpen(false)} page={page} setPage={navigatePage} />
+      <MobileNav page={page} setPage={navigatePage} />
       <ProfileEditorModal
         open={profileOpen}
         profile={profile}

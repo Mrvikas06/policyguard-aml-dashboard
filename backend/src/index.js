@@ -18,7 +18,7 @@ import networkRoutes from './routes/network.js';
 import statsRoutes from './routes/stats.js';
 import scanRoutes from './routes/scans.js';
 import auditRoutes from './routes/audit.js';
-import { authenticateToken, optionalAuth } from './middleware/auth.js';
+import { authenticateToken } from './middleware/auth.js';
 import { errorHandler, notFound } from './middleware/errorHandler.js';
 import { rateLimiter } from './middleware/rateLimiter.js';
 import { setupWebSocket } from './services/websocket.js';
