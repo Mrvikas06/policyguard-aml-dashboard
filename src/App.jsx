@@ -594,7 +594,7 @@ function NetworkGraph({ onExplain, selectedNode: externalSelected, onSelectNode 
   );
 }
 
-function Header({ search, setSearch, dateFilter, setDateFilter, timeLabel, onMenuClick }) {
+function Header({ search, setSearch, dateFilter, setDateFilter, timeLabel, onMenuClick, profile, onEditProfile }) {
   return (
     <header className="topbar-shell" style={{ position: "sticky", top: 0, zIndex: 40 }}>
       <div style={{ display: "flex", alignItems: "center", gap: 12, padding: "14px 18px", maxWidth: 1600, margin: "0 auto", flexWrap: "wrap" }}>
@@ -620,13 +620,15 @@ function Header({ search, setSearch, dateFilter, setDateFilter, timeLabel, onMen
           <Badge col={C.ai}>Live · {timeLabel}</Badge>
           <Button variant="secondary" tone="slate" aria-label="Help">?</Button>
           <Button variant="secondary" tone="slate" aria-label="Notifications">🔔</Button>
-          <div style={{ display: "flex", alignItems: "center", gap: 10, paddingLeft: 4 }}>
-            <Avatar name="Meredith Lane" />
-            <div style={{ lineHeight: 1.2 }}>
-              <div style={{ fontWeight: 700, color: C.text, fontSize: 13 }}>Meredith Lane</div>
-              <div style={{ color: C.text2, fontSize: 12 }}>Compliance Lead</div>
+          <button type="button" className="profile-button" onClick={onEditProfile} aria-label="Edit user profile">
+            <Avatar name={profile.name} />
+            <div style={{ lineHeight: 1.2, minWidth: 0, textAlign: "left" }}>
+              <div style={{ fontWeight: 800, color: C.text, fontSize: 13 }}>{profile.name}</div>
+              <div style={{ color: C.text2, fontSize: 12 }}>{profile.title}</div>
             </div>
-          </div>
+            <Badge col={profile.permissions.editUserInfo ? C.resolved : C.muted} sm>{profile.permissions.editUserInfo ? "Editable" : "Locked"}</Badge>
+            <span style={{ color: C.brand, fontSize: 12, fontWeight: 800 }}>Edit</span>
+          </button>
         </div>
       </div>
     </header>
@@ -906,7 +908,7 @@ function MobileDrawer({ open, onClose, page, setPage }) {
 
 function StatGrid({ stats }) {
   return (
-    <div className="metric-grid kpi-grid" style={{ display: "grid", gap: 14 }}>
+    <div className="metric-grid kpi-grid stagger-grid" style={{ display: "grid", gap: 14 }}>
       {stats.map((s) => <StatCard key={s.label} {...s} />)}
     </div>
   );
@@ -932,8 +934,8 @@ function OverviewPage({ openThreat, threatPage, setThreatPage, selectedPeriod, s
   ];
 
   return (
-    <div style={{ display: "grid", gap: 18 }}>
-      <Card>
+    <div className="stagger-grid" style={{ display: "grid", gap: 18 }}>
+      <Card style={{ background: "linear-gradient(135deg, rgba(15,159,154,0.10), rgba(59,130,246,0.06), rgba(139,92,246,0.08), rgba(255,255,255,0.96))" }}>
         <CardContent style={{ padding: 22 }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 16, flexWrap: "wrap" }}>
             <div>
@@ -945,7 +947,7 @@ function OverviewPage({ openThreat, threatPage, setThreatPage, selectedPeriod, s
               <Tabs items={QUICK_FILTERS} value={selectedPeriod} onChange={setSelectedPeriod} />
               <div style={{ display: "flex", gap: 8, flexWrap: "wrap", justifyContent: "end" }}>
                 <Badge col={C.brand}>High Trust</Badge>
-                <Badge col={C.ai}>AI Review</Badge>
+                <Badge col={C.violet}>Adaptive UI</Badge>
                 <Badge col={C.critical}>4 Critical</Badge>
               </div>
             </div>
@@ -1321,7 +1323,7 @@ function ScannerPage() {
   );
 }
 
-function AuditPage() {
+function AuditPage({ profile, onEditProfile }) {
   return (
     <div style={{ display: "grid", gap: 16 }}>
       <SectionHeading eyebrow="System" title="Audit Log & Settings" description="Track activity and expose system configuration in a calm, enterprise-focused workspace." />
@@ -1341,9 +1343,58 @@ function AuditPage() {
           </CardContent>
         </Card>
         <Card>
-          <CardHeader><CardTitle>Settings</CardTitle><CardDescription>Minimal controls for environment and user preferences.</CardDescription></CardHeader>
-          <CardContent style={{ display: "grid", gap: 12 }}>
-            {["Environment: Production", "Notifications: On", "Model refresh: Hourly", "Export policy: Restricted"].map((item) => <div key={item} style={{ display: "flex", justifyContent: "space-between", color: C.text }}><span>{item}</span><span style={{ color: C.brand }}>Manage</span></div>)}
+          <CardHeader>
+            <div style={{ display: "flex", justifyContent: "space-between", gap: 12, alignItems: "start", flexWrap: "wrap" }}>
+              <div>
+                <CardTitle>Profile & access</CardTitle>
+                <CardDescription>Editable user details, role permissions, and workspace preferences.</CardDescription>
+              </div>
+              <Button tone="violet" onClick={onEditProfile}>Edit profile</Button>
+            </div>
+          </CardHeader>
+          <CardContent style={{ display: "grid", gap: 14 }}>
+            <div className="soft-card-elevated" style={{ padding: 16, display: "grid", gap: 14 }}>
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, flexWrap: "wrap" }}>
+                <div>
+                  <div style={{ color: C.text, fontSize: 16, fontWeight: 800, letterSpacing: "-0.02em" }}>{profile.name}</div>
+                  <div style={{ color: C.text2, fontSize: 13, marginTop: 4 }}>{profile.title}</div>
+                </div>
+                <Avatar name={profile.name} />
+              </div>
+              <div style={{ display: "grid", gap: 8 }}>
+                {[
+                  { label: "Email", value: profile.email },
+                  { label: "Team", value: profile.team },
+                  { label: "Location", value: profile.location },
+                  { label: "Timezone", value: profile.timezone },
+                ].map((item) => (
+                  <div key={item.label} style={{ display: "flex", justifyContent: "space-between", gap: 12, color: C.text, fontSize: 13 }}>
+                    <span style={{ color: C.text2 }}>{item.label}</span>
+                    <span style={{ fontWeight: 700, textAlign: "right" }}>{item.value}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div style={{ display: "grid", gap: 10 }}>
+              {[
+                { label: "Profile editing", on: profile.permissions.editUserInfo, tone: C.resolved },
+                { label: "Report export", on: profile.permissions.exportReports, tone: C.sky },
+                { label: "Policy management", on: profile.permissions.managePolicies, tone: C.violet },
+                { label: "Case assignment", on: profile.permissions.assignCases, tone: C.brand },
+              ].map((item) => (
+                <div key={item.label} className="permission-card" data-on={item.on}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12 }}>
+                    <span style={{ color: C.text, fontSize: 14, fontWeight: 700 }}>{item.label}</span>
+                    <Badge col={item.on ? item.tone : C.muted} sm>{item.on ? "Enabled" : "Restricted"}</Badge>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div style={{ display: "grid", gap: 12 }}>
+              {["Environment: Production", "Notifications: On", "Model refresh: Hourly", "Export policy: Restricted"].map((item) => <div key={item} style={{ display: "flex", justifyContent: "space-between", color: C.text }}><span>{item}</span><span style={{ color: C.brand }}>Manage</span></div>)}
+            </div>
           </CardContent>
         </Card>
       </div>
@@ -1376,12 +1427,16 @@ export default function App() {
   const [search, setSearch] = useState("");
   const [dateFilter, setDateFilter] = useState("Last 24 hours");
   const [toast, setToast] = useState(null);
+  const [profile, setProfile] = useState(INITIAL_PROFILE);
+  const [profileDraft, setProfileDraft] = useState(INITIAL_PROFILE);
+  const [profileOpen, setProfileOpen] = useState(false);
   const [selectedThreat, setSelectedThreat] = useState(baseThreats[3]);
   const [selectedPeriod, setSelectedPeriod] = useState("Today");
   const [selectedRiskMetric, setSelectedRiskMetric] = useState("Risk Score");
   const [threatPage, setThreatPage] = useState(1);
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
   const [clock, setClock] = useState(new Date());
+  const [pageBusy, setPageBusy] = useState(true);
 
   useEffect(() => {
     const timer = setInterval(() => setClock(new Date()), 15000);
@@ -1389,16 +1444,39 @@ export default function App() {
   }, []);
 
   useEffect(() => {
+    setPageBusy(true);
+    const timer = setTimeout(() => setPageBusy(false), 220);
+    return () => clearTimeout(timer);
+  }, [page]);
+
+  useEffect(() => {
     if (!toast) return undefined;
     const timer = setTimeout(() => setToast(null), 4000);
     return () => clearTimeout(timer);
   }, [toast]);
+
+  useEffect(() => {
+    if (profileOpen) {
+      setProfileDraft(profile);
+    }
+  }, [profileOpen, profile]);
 
   const openThreat = useCallback((threat) => {
     setSelectedThreat(threat);
     setPage("investigation");
     setToast({ msg: `${threat.id} opened in investigation workspace`, col: C.brand });
   }, []);
+
+  const openProfileEditor = useCallback(() => {
+    setProfileDraft(profile);
+    setProfileOpen(true);
+  }, [profile]);
+
+  const saveProfile = useCallback(() => {
+    setProfile(profileDraft);
+    setProfileOpen(false);
+    setToast({ msg: "User profile updated", col: C.violet });
+  }, [profileDraft]);
 
   const content = useMemo(() => {
     switch (page) {
@@ -1412,11 +1490,11 @@ export default function App() {
       case "scanner": return <ScannerPage />;
       case "sentinel": return <SentinelPage />;
       case "investigation": return <ThreatDetailPage threat={selectedThreat} />;
-      case "audit": return <AuditPage />;
-      case "settings": return <AuditPage />;
+      case "audit": return <AuditPage profile={profile} onEditProfile={openProfileEditor} />;
+      case "settings": return <AuditPage profile={profile} onEditProfile={openProfileEditor} />;
       default: return <OverviewPage openThreat={openThreat} threatPage={threatPage} setThreatPage={setThreatPage} selectedPeriod={selectedPeriod} setSelectedPeriod={setSelectedPeriod} selectedRiskMetric={selectedRiskMetric} setSelectedRiskMetric={setSelectedRiskMetric} />;
     }
-  }, [page, search, selectedThreat, threatPage, selectedPeriod, selectedRiskMetric, openThreat]);
+  }, [page, search, selectedThreat, threatPage, selectedPeriod, selectedRiskMetric, openThreat, profile, openProfileEditor]);
 
   return (
     <div className="app-shell">
@@ -1436,19 +1514,34 @@ export default function App() {
             setDateFilter={setDateFilter}
             timeLabel={clock.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
             onMenuClick={() => setMobileDrawerOpen(true)}
+            profile={profile}
+            onEditProfile={openProfileEditor}
           />
           <main className="page-frame" style={{ padding: 18, display: "grid", gap: 18 }}>
             <div style={{ display: "flex", justifyContent: "space-between", gap: 12, alignItems: "center", flexWrap: "wrap" }}>
               <div style={{ color: C.text2, fontSize: 13 }}>Environment: Production · {dateFilter} · {clock.toLocaleDateString([], { month: "short", day: "numeric", year: "numeric" })}</div>
               <Badge col={C.brand}>Compliance ready</Badge>
             </div>
-            {content}
+            <div className={`page-stage ${pageBusy ? "is-busy" : ""}`} aria-busy={pageBusy}>
+              {pageBusy && <div className="page-stage-loader" />}
+              <div key={page} className="page-stage-body">
+                {content}
+              </div>
+            </div>
           </main>
         </div>
       </div>
 
       <MobileDrawer open={mobileDrawerOpen} onClose={() => setMobileDrawerOpen(false)} page={page} setPage={setPage} />
       <MobileNav page={page} setPage={setPage} />
+      <ProfileEditorModal
+        open={profileOpen}
+        profile={profile}
+        draft={profileDraft}
+        setDraft={setProfileDraft}
+        onClose={() => setProfileOpen(false)}
+        onSave={saveProfile}
+      />
     </div>
   );
 }
