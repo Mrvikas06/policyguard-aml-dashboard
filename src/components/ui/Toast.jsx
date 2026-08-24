@@ -11,20 +11,20 @@ export function Toast({ toast }) {
     <div
       style={{
         position:       "fixed",
-        top:            18,
+        bottom:         18,
         right:          22,
         zIndex:         9999,
-        background:     C.card,
-        border:         `1px solid ${toast.col}50`,
-        borderRadius:   8,
-        padding:        "11px 18px",
+        background:     C.surface,
+        border:         `1px solid ${C.border}`,
+        borderRadius:   12,
+        padding:        "12px 16px",
         color:          toast.col,
-        fontSize:       11,
-        fontWeight:     700,
+        fontSize:       13,
+        fontWeight:     600,
         animation:      "slideIn .3s ease",
-        backdropFilter: "blur(16px)",
-        boxShadow:      `0 0 32px ${toast.col}20`,
-        fontFamily:     "'JetBrains Mono', monospace",
+        backdropFilter: "blur(12px)",
+        boxShadow:      C.shadowLg,
+        fontFamily:     "'Inter', system-ui, sans-serif",
       }}
     >
       {toast.msg}
