@@ -155,9 +155,6 @@ function AppContent() {
   const [selectedPeriod, setSelectedPeriod] = useState("Today");
   const [selectedRiskMetric, setSelectedRiskMetric] = useState("Risk Score");
   const [threatPage, setThreatPage] = useState(1);
-  const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
-  const [clock, setClock] = useState(new Date());
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [globalLoading, setGlobalLoading] = useState(false);
 
   useEffect(() => {

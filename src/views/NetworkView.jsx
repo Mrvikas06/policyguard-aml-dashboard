@@ -3,7 +3,7 @@
 // ─────────────────────────────────────────────────────────────────────────────
 
 import { useState, useEffect, useMemo } from "react";
-import { C, formatNumber, formatCurrency, formatRelative } from "../theme/colors";
+import { C, formatCurrency } from "../theme/colors";
 import { Button } from "../components/ui/Button";
 import { Card, CardHeader, CardContent, CardTitle, CardDescription } from "../components/ui/Card";
 import { Input } from "../components/ui/Input";

@@ -3,7 +3,7 @@
 // ─────────────────────────────────────────────────────────────────────────────
 
 import { useState, useRef, useEffect } from "react";
-import { C, cn, styleUtils } from "../../theme/colors";
+import { C } from "../../theme/colors";
 import { Button } from "../ui/Button";
 import { Input } from "../ui/Input";
 import { Select } from "../ui/Select";
@@ -31,7 +31,6 @@ export function Topbar({
   onLogout,
   notifications = 0,
 }) {
-  const [searchFocused, setSearchFocused] = useState(false);
   const [notifOpen, setNotifOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const notifRef = useRef(null);
@@ -80,8 +79,6 @@ export function Topbar({
             <Input
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              onFocus={() => setSearchFocused(true)}
-              onBlur={() => setSearchFocused(false)}
               placeholder="Search transactions, accounts, threats..."
               leftIcon={ICONS.search}
               style={{ width: "100%", maxWidth: 620 }}

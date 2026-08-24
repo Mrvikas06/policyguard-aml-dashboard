@@ -250,7 +250,7 @@ export const styleUtils = {
   },
 
   // Progress bar
-  progress: (color = C.brand, height = 8) => ({
+  progress: (_color = C.brand, height = 8) => ({
     width: "100%", height,
     background: C.surfaceAlt,
     borderRadius: C.radiusFull,

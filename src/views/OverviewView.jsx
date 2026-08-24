@@ -2,8 +2,8 @@
 // Overview View — Executive AML Dashboard
 // ─────────────────────────────────────────────────────────────────────────────
 
-import { useState, useEffect, useMemo } from "react";
-import { C, GLOBAL_CSS, riskColor, riskLabel, cn, formatNumber, formatCurrency, formatRelative } from "../theme/colors";
+import { useState, useEffect } from "react";
+import { C, GLOBAL_CSS, riskColor, riskLabel, formatNumber, formatCurrency, formatRelative } from "../theme/colors";
 import { Button } from "../components/ui/Button";
 import { Card, CardHeader, CardContent, CardTitle, CardDescription } from "../components/ui/Card";
 import { Progress } from "../components/ui/Progress";
@@ -12,7 +12,7 @@ import { Badge } from "../components/ui/Badge";
 
 const QUICK_FILTERS = ["Today", "24 hours", "7 days", "30 days", "Custom"];
 
-export function OverviewView({ openThreat, threatPage, setThreatPage, selectedPeriod, setSelectedPeriod, selectedRiskMetric, setSelectedRiskMetric, setPage }) {
+export function OverviewView({ openThreat, selectedPeriod, setSelectedPeriod, selectedRiskMetric, setSelectedRiskMetric, setPage }) {
   const [kpis, setKpis] = useState([]);
   const [riskDistribution, setRiskDistribution] = useState([]);
   const [overviewSeries, setOverviewSeries] = useState([]);
@@ -23,10 +23,9 @@ export function OverviewView({ openThreat, threatPage, setThreatPage, selectedPe
     async function fetchData() {
       setLoading(true);
       try {
-        const [statsRes, threatsRes, trendRes] = await Promise.all([
+        const [statsRes, threatsRes] = await Promise.all([
           fetch("/api/stats/overview").then(r => r.json()),
           fetch("/api/threats?limit=10&sort=detected_at&order=desc").then(r => r.json()),
-          fetch("/api/stats/overview").then(r => r.json()), // reuse for trend
         ]);
 
         setKpis([

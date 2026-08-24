@@ -17,7 +17,7 @@ export function AuthProvider({ children }) {
     try {
       const userData = await api.auth.me();
       setUser(userData);
-    } catch (e) {
+    } catch (_e) {
       localStorage.removeItem("auth_token");
       setUser(null);
     } finally {

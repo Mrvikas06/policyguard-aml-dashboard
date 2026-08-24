@@ -3,7 +3,7 @@
 // ─────────────────────────────────────────────────────────────────────────────
 
 import { useState, useEffect } from "react";
-import { C, formatNumber, formatCurrency, formatRelative, cn } from "../theme/colors";
+import { C, formatCurrency, formatRelative } from "../theme/colors";
 import { Button } from "../components/ui/Button";
 import { Card, CardHeader, CardContent, CardTitle, CardDescription } from "../components/ui/Card";
 import { Input } from "../components/ui/Input";
@@ -11,7 +11,6 @@ import { Badge } from "../components/ui/Badge";
 import { Progress } from "../components/ui/Progress";
 import { Separator } from "../components/ui/Separator";
 import { SectionHeading } from "../components/shared";
-import { api } from "../services/api";
 
 export function InvestigationView({ threat, onClose }) {
   const [question, setQuestion] = useState("Why was this transaction flagged?");

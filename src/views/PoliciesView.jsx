@@ -60,8 +60,6 @@ export function PoliciesView() {
     fetchRules();
   }, []);
 
-  const severityColors = { critical: C.critical, high: C.high, medium: C.medium, low: C.resolved };
-
   const handleTest = async (rule) => {
     setTestingRule(rule.rule_id);
     try {

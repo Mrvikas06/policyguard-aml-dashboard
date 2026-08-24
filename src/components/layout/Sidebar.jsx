@@ -21,7 +21,6 @@ const ICONS = {
 };
 
 export function Sidebar({ page, setPage, collapsed = false, setCollapsed, navGroups }) {
-  const [hoveredGroup, setHoveredGroup] = useState(null);
 
   return (
     <aside

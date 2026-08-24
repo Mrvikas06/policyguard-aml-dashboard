@@ -2,7 +2,7 @@
 // Threats View — Threat registry with filtering, sorting, pagination
 // ─────────────────────────────────────────────────────────────────────────────
 
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import { C, riskColor, formatCurrency, formatRelative } from "../theme/colors";
 import { Button } from "../components/ui/Button";
 import { Card, CardHeader, CardContent, CardTitle, CardDescription } from "../components/ui/Card";
@@ -13,7 +13,7 @@ import { Tabs } from "../components/ui/Tabs";
 import { SectionHeading } from "../components/shared";
 import { api } from "../services/api";
 
-export function ThreatsView({ search, threatPage, setThreatPage, openThreat }) {
+export function ThreatsView({ threatPage, setThreatPage, openThreat }) {
   const [threats, setThreats] = useState([]);
   const [totalThreats, setTotalThreats] = useState(0);
   const [loading, setLoading] = useState(true);

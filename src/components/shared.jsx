@@ -2,8 +2,7 @@
 // Shared UI Components — Reusable across views
 // ─────────────────────────────────────────────────────────────────────────────
 
-import { useState, useEffect, useMemo } from "react";
-import { C, GLOBAL_CSS, riskColor, riskLabel, cn, formatNumber, formatCurrency, formatRelative, formatTime, formatDate } from "../theme/colors";
+import { C, riskColor, riskLabel, formatNumber } from "../theme/colors";
 import { Button } from "./ui/Button";
 import { Card, CardHeader, CardContent, CardTitle, CardDescription } from "./ui/Card";
 import { Progress } from "./ui/Progress";
@@ -12,9 +11,7 @@ import { Badge } from "./ui/Badge";
 import { Separator } from "./ui/Separator";
 import { BrandMark } from "./ui/BrandMark";
 
-const QUICK_FILTERS = ["Today", "24 hours", "7 days", "30 days", "Custom"];
-
-export { BrandMark, QUICK_FILTERS, cn, formatNumber, formatCurrency, formatRelative, formatTime, formatDate };
+export { BrandMark, Separator };
 
 // ─────────────────────────────────────────────────────────────────────────────
 // SectionHeading — Consistent section header with actions
