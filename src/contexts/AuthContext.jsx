@@ -1,7 +1,7 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // Auth Context — Authentication state management
 // ─────────────────────────────────────────────────────────────────────────────
-
+/* eslint-disable react-refresh/only-export-components */
 import { createContext, useContext, useState, useEffect, useCallback } from "react";
 import { api } from "../services/api";
 
@@ -17,7 +17,7 @@ export function AuthProvider({ children }) {
     try {
       const userData = await api.auth.me();
       setUser(userData);
-    } catch (_e) {
+    } catch {
       localStorage.removeItem("auth_token");
       setUser(null);
     } finally {

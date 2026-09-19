@@ -3,7 +3,7 @@
 // ─────────────────────────────────────────────────────────────────────────────
 
 import { useRef, useEffect } from "react";
-import { C, cn } from "../../theme/colors";
+import { cn } from "../../theme/colors";
 
 export function Tabs({ items, value, onChange, style, className = "", variant = "default" }) {
   const containerRef = useRef(null);
@@ -41,24 +41,23 @@ export function Tabs({ items, value, onChange, style, className = "", variant = 
         display: "inline-flex",
         gap: 4,
         padding: 4,
-        background: C.surfaceAlt,
-        border: `1px solid ${C.border}`,
-        borderRadius: C.radiusLg,
+        background: "var(--color-surface-alt)",
+        border: `1px solid var(--color-border)`,
+        borderRadius: "var(--radius-lg)",
         overflowX: "auto",
         scrollbarWidth: "none",
-        "&::-webkit-scrollbar": { display: "none" },
       },
       button: (active) => ({
         border: "none",
-        background: active ? C.brand : "transparent",
-        color: active ? "#fff" : C.textDim,
-        borderRadius: C.radius,
+        background: active ? "var(--color-brand)" : "transparent",
+        color: active ? "#fff" : "var(--color-text-dim)",
+        borderRadius: "var(--radius-md)",
         padding: "8px 14px",
         fontSize: 13,
         fontWeight: active ? 600 : 500,
         whiteSpace: "nowrap",
-        transition: `all ${C.fast}`,
-        boxShadow: active ? C.shadowSm : "none",
+        transition: `all var(--fast)`,
+        boxShadow: active ? "var(--shadow-sm)" : "none",
       }),
     },
     pills: {
@@ -70,37 +69,37 @@ export function Tabs({ items, value, onChange, style, className = "", variant = 
         padding: 0,
       },
       button: (active) => ({
-        border: `1px solid ${active ? C.brand : C.border}`,
-        background: active ? C.brandSoft : "transparent",
-        color: active ? C.brand : C.textDim,
-        borderRadius: C.radiusFull,
+        border: `1px solid ${active ? "var(--color-brand)" : "var(--color-border)"}`,
+        background: active ? "var(--color-brand-soft)" : "transparent",
+        color: active ? "var(--color-brand)" : "var(--color-text-dim)",
+        borderRadius: "var(--radius-full)",
         padding: "8px 16px",
         fontSize: 13,
         fontWeight: active ? 600 : 500,
         whiteSpace: "nowrap",
-        transition: `all ${C.fast}`,
+        transition: `all var(--fast)`,
       }),
     },
     underline: {
       container: {
         display: "flex",
         gap: 0,
-        borderBottom: `1px solid ${C.border}`,
+        borderBottom: `1px solid var(--color-border)`,
         paddingBottom: 0,
         background: "transparent",
       },
       button: (active) => ({
         border: "none",
         background: "transparent",
-        color: active ? C.brand : C.textDim,
+        color: active ? "var(--color-brand)" : "var(--color-text-dim)",
         borderRadius: 0,
         padding: "12px 16px",
         fontSize: 13.5,
         fontWeight: active ? 700 : 500,
-        borderBottom: `2px solid ${active ? C.brand : "transparent"}`,
+        borderBottom: `2px solid ${active ? "var(--color-brand)" : "transparent"}`,
         marginBottom: -1,
         whiteSpace: "nowrap",
-        transition: `all ${C.fast}`,
+        transition: `all var(--fast)`,
       }),
     },
   };
@@ -128,7 +127,7 @@ export function Tabs({ items, value, onChange, style, className = "", variant = 
             id={`tab-${item}`}
             onClick={() => onChange(item)}
             onKeyDown={(e) => handleKeyDown(e, index)}
-            style={v.button(active)}
+            style={{ ...v.button(active), cursor: "pointer" }}
             tabIndex={active ? 0 : -1}
           >
             {item}

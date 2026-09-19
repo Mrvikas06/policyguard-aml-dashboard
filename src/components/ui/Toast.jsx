@@ -2,26 +2,23 @@
 // Toast — Slide-in notification with auto-dismiss and actions
 // ─────────────────────────────────────────────────────────────────────────────
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef } from "react";
 import { C, cn } from "../../theme/colors";
 
 export function Toast({ toast, onClose }) {
-  const [visible, setVisible] = useState(false);
+  const timerRef = useRef(null);
 
   useEffect(() => {
-    if (!toast) { 
-      setVisible(false); 
-      return; 
-    }
-    setVisible(true);
-    const timer = setTimeout(() => {
-      setVisible(false);
+    if (!toast) return;
+    timerRef.current = setTimeout(() => {
       onClose?.();
     }, toast.duration || 4000);
-    return () => clearTimeout(timer);
+    return () => {
+      if (timerRef.current) clearTimeout(timerRef.current);
+    };
   }, [toast, onClose]);
 
-  if (!toast || !visible) return null;
+  if (!toast) return null;
 
   const colors = {
     info: C.brand,
@@ -75,7 +72,7 @@ export function Toast({ toast, onClose }) {
         </Button>
       )}
       <button
-        onClick={() => { setVisible(false); onClose?.(); }}
+        onClick={() => onClose?.()}
         style={{
           background: "none",
           border: "none",

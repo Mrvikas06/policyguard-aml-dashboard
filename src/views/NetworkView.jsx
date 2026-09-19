@@ -22,7 +22,7 @@ export function NetworkView() {
       setLoading(true);
       try {
         const [graphRes, pairsRes] = await Promise.all([
-          api.network.graph({ limit: 500, min_amount: 1000 }),
+          api.network.graph({ limit: 20, min_amount: 1000 }),
           api.network.highRiskPairs(),
         ]);
         setGraphData({ nodes: graphRes.nodes || [], links: graphRes.links || [] });
@@ -187,10 +187,6 @@ function NetworkGraph({ nodes, links, positions, selectedNode, onNodeClick }) {
         <marker id="net-arrow" markerWidth="5" markerHeight="5" refX="4" refY="2.5" orient="auto">
           <path d="M0,0 L5,2.5 L0,5" fill={C.borderLight} />
         </marker>
-        <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
-          <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
-          <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
-        </filter>
       </defs>
       
       {/* Grid background */}
@@ -219,7 +215,6 @@ function NetworkGraph({ nodes, links, positions, selectedNode, onNodeClick }) {
             opacity={isFlagged ? 0.9 : 0.4}
             strokeLinecap="round"
             markerEnd="url(#net-arrow)"
-            filter={isFlagged ? "url(#glow)" : "none"}
           />
         );
       })}
@@ -231,20 +226,20 @@ function NetworkGraph({ nodes, links, positions, selectedNode, onNodeClick }) {
         const isSelected = selectedNode?.id === node.id;
         const riskColor = node.risk;
         return (
-          <g key={node.id} onClick={() => onNodeClick(node)} style={{ cursor: "pointer", filter: isSelected ? "url(#glow)" : "none" }}>
+          <g key={node.id} onClick={() => onNodeClick(node)} style={{ cursor: "pointer" }}>
             <circle
               cx={pos.x} cy={pos.y}
-              r={isSelected ? 22 : 16}
-              fill="#fff"
+              r={isSelected ? 16 : 8}
+              fill={C.bgElevated}
               stroke={isSelected ? C.brand : riskColor}
-              strokeWidth={isSelected ? 3.5 : 2.5}
+              strokeWidth={isSelected ? 2.5 : 2}
               style={{ transition: "all 0.2s ease" }}
             />
-            <circle cx={pos.x} cy={pos.y} r={isSelected ? 6 : 4} fill={riskColor} />
+            <circle cx={pos.x} cy={pos.y} r={isSelected ? 5 : 3} fill={riskColor} />
             {isSelected && (
-              <circle cx={pos.x} cy={pos.y} r={26} fill="none" stroke={C.brand} strokeWidth={2} strokeDasharray="4 4" opacity={0.6} />
+              <circle cx={pos.x} cy={pos.y} r={22} fill="none" stroke={C.brand} strokeWidth={1.5} strokeDasharray="3 3" opacity={0.6} />
             )}
-            <text x={pos.x} y={pos.y + 35} textAnchor="middle" fontSize="11" fill={C.textDim} fontWeight={isSelected ? 700 : 500} style={{ fontFamily: "'Inter', sans-serif", pointerEvents: "none" }}>{node.account}</text>
+            <text x={pos.x} y={pos.y + 25} textAnchor="middle" fontSize="10" fill={C.textDim} fontWeight={isSelected ? 700 : 500} style={{ fontFamily: "'Inter', sans-serif", pointerEvents: "none" }}>{node.account}</text>
           </g>
         );
       })}

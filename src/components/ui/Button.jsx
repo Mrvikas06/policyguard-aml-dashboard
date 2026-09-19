@@ -2,9 +2,7 @@
 // Button — Premium action control with full variant support
 // ─────────────────────────────────────────────────────────────────────────────
 
-import { C, styleUtils, cn } from "../../theme/colors";
-
-const base = styleUtils.btnBase;
+import { cn } from "../../theme/colors";
 
 export function Button({
   variant = "primary",
@@ -19,45 +17,36 @@ export function Button({
   onClick,
   ...props
 }) {
-  const sizes = {
-    sm: { padding: "7px 12px", fontSize: 12, borderRadius: C.radiusSm, gap: 6 },
-    md: { padding: "10px 16px", fontSize: 13, borderRadius: C.radius, gap: 8 },
-    lg: { padding: "13px 20px", fontSize: 14, borderRadius: C.radiusLg, gap: 10 },
+  const sizeStyles = {
+    sm: { padding: "8px 14px", fontSize: 12 },
+    md: { padding: "10px 18px", fontSize: 13 },
+    lg: { padding: "12px 22px", fontSize: 14 },
   };
 
-  const variantStyles = {
-    primary: styleUtils.btnPrimary(disabled || loading),
-    secondary: styleUtils.btnSecondary(disabled || loading),
-    outline: styleUtils.btnOutline(C.brand, disabled || loading),
-    ghost: styleUtils.btnGhost(C.textDim, disabled || loading),
-    danger: styleUtils.btnDanger(disabled || loading),
-    accent: styleUtils.btnPrimary(disabled || loading), // reuse primary with accent color via style override
-  };
-
-  const variantStyle = variantStyles[variant] || variantStyles.primary;
-
-  // Override accent color if variant is accent
-  const finalStyle = variant === "accent" 
-    ? { ...variantStyle, background: disabled || loading ? `${C.accent}66` : C.accent, borderColor: disabled || loading ? "transparent" : C.accent }
-    : variantStyle;
+  const variantClass = {
+    primary: "btn-primary",
+    secondary: "btn-secondary",
+    outline: "btn-ghost", // Reusing ghost for now as outline doesn't have a specific glass class yet
+    ghost: "btn-ghost",
+    danger: "btn-danger",
+    accent: "btn-primary", 
+  }[variant] || "btn-primary";
 
   return (
     <button
       type={type}
       disabled={disabled || loading}
       onClick={onClick}
-      className={cn("btn", className)}
+      className={cn("btn", variantClass, className)}
       style={{
-        ...base,
-        ...sizes[size],
-        ...finalStyle,
+        ...sizeStyles[size],
         width: block ? "100%" : "auto",
         ...style,
       }}
       {...props}
     >
       {loading && (
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" style={{ animation: "spin 1s linear infinite" }}>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" style={{ animation: "spin 1s linear infinite", marginRight: 4 }}>
           <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" strokeOpacity="0.25" fill="none" />
           <path d="M12 2a10 10 0 0 1 10 10" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
         </svg>

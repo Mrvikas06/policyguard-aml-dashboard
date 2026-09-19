@@ -76,9 +76,9 @@ export function AuditView() {
                     <div key={entry.id} style={{ padding: 14, border: `1px solid ${C.border}`, borderRadius: C.radius, background: C.surface, display: "flex", justifyContent: "space-between", gap: 12, flexWrap: "wrap" }}>
                       <div style={{ flex: 1, minWidth: 200 }}>
                         <div style={{ color: C.text, fontWeight: 600 }}>{entry.action}</div>
-                        <div style={{ color: C.textDim, fontSize: 12, marginTop: 4 }}>{entry.actor} · {entry.entity_type || "system"}</div>
+                        <div style={{ color: C.textDim, fontSize: 12, marginTop: 4, fontFamily: "'JetBrains Mono', monospace" }}>{entry.actor} · {entry.entity_type || "system"}</div>
                       </div>
-                      <Badge variant="soft" color={C.ai} size="sm">{formatRelative(entry.timestamp)}</Badge>
+                      <Badge variant="soft" color={C.ai} size="sm" style={{ fontFamily: "'JetBrains Mono', monospace" }}>{formatRelative(entry.timestamp)}</Badge>
                     </div>
                   ))}
                 </>

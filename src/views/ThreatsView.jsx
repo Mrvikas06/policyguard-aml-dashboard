@@ -104,17 +104,17 @@ export function ThreatsView({ threatPage, setThreatPage, openThreat }) {
               {threats.map((row) => (
                 <tr key={row.id} className="table-row clickable" onClick={() => openThreat(row)}>
                   <td><Badge severity={row.severity} size="sm" dot /></td>
-                  <td style={{ fontWeight: 700, color: C.text }}>{row.threat_id}</td>
-                  <td style={{ color: C.textDim }}>{row.rule_id}</td>
+                  <td style={{ fontWeight: 700, color: C.text, fontFamily: "'JetBrains Mono', monospace" }}>{row.threat_id}</td>
+                  <td style={{ color: C.textDim, fontFamily: "'JetBrains Mono', monospace" }}>{row.rule_id}</td>
                   <td style={{ fontFamily: "'JetBrains Mono', monospace", color: C.text }}>{row.txn_id}</td>
                   <td style={{ fontFamily: "'JetBrains Mono', monospace", color: C.text }}>{formatCurrency(row.amount)}</td>
                   <td>
                     <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                       <Progress value={Math.round(row.confidence * 100)} color={riskColor(Math.round(row.confidence * 100))} height={6} style={{ width: 80 }} />
-                      <span style={{ fontSize: 12, color: C.textDim }}>{Math.round(row.confidence * 100)}%</span>
+                      <span style={{ fontSize: 12, color: C.textDim, fontFamily: "'JetBrains Mono', monospace" }}>{Math.round(row.confidence * 100)}%</span>
                     </div>
                   </td>
-                  <td style={{ color: C.textDim }}>{formatRelative(row.detected_at)}</td>
+                  <td style={{ color: C.textDim, fontFamily: "'JetBrains Mono', monospace" }}>{formatRelative(row.detected_at)}</td>
                   <td><Badge status={row.status} size="sm" /></td>
                   <td><Button variant="ghost" size="sm" tone="accent">Open</Button></td>
                 </tr>

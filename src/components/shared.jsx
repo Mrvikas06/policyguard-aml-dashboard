@@ -44,9 +44,9 @@ export function StatCard({ label, value, trend, period, spark, tone = C.brand, t
           <div style={{ minWidth: 0 }}>
             <div style={{ color: C.textDim, fontSize: 11.5, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase" }}>{label}</div>
             <div style={{ display: "flex", alignItems: "baseline", gap: 10, marginTop: 8, flexWrap: "wrap" }}>
-              <div style={{ color: C.text, fontSize: 32, fontWeight: 800, letterSpacing: "-0.05em", lineHeight: 1 }}>{value}</div>
+              <div style={{ color: C.text, fontSize: 32, fontWeight: 800, letterSpacing: "-0.04em", lineHeight: 1, fontFamily: "'JetBrains Mono', monospace" }}>{value}</div>
               {trend && (
-                <span style={{ display: "inline-flex", alignItems: "center", gap: 4, padding: "4px 9px", borderRadius: C.radiusFull, background: `${deltaColor}1A`, color: deltaColor, border: `1px solid ${deltaColor}33`, fontSize: 12, fontWeight: 700, whiteSpace: "nowrap" }}>
+                <span style={{ display: "inline-flex", alignItems: "center", gap: 4, padding: "4px 9px", borderRadius: C.radiusFull, background: `${deltaColor}1A`, color: deltaColor, border: `1px solid ${deltaColor}33`, fontSize: 12, fontWeight: 700, whiteSpace: "nowrap", fontFamily: "'JetBrains Mono', monospace" }}>
                   {trendIcon}{trend}
                 </span>
               )}
@@ -71,7 +71,7 @@ export function StatCard({ label, value, trend, period, spark, tone = C.brand, t
 export function StatGrid({ stats }) {
   return (
     <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 16 }}>
-      {stats.map((s) => <StatCard key={s.label} {...s} />)}
+      {stats.map((s, idx) => <StatCard key={s.label || idx} {...s} />)}
     </div>
   );
 }
@@ -102,9 +102,9 @@ export function DonutScore({ score, label, detail }) {
             <circle cx="60" cy="60" r={radius} fill="none" stroke={C.surfaceAlt} strokeWidth={stroke} />
             <circle cx="60" cy="60" r={radius} fill="none" stroke={ringColor} strokeWidth={stroke} strokeLinecap="round" strokeDasharray={circumference} strokeDashoffset={offset} transform="rotate(-90 60 60)" />
           </svg>
-          <div style={{ position: "absolute", inset: 0, display: "grid", placeItems: "center", textAlign: "center" }}>
-            <div style={{ fontSize: 28, fontWeight: 800, letterSpacing: "-0.04em", color: C.text }}>{normalized}%</div>
-            <div style={{ fontSize: 12, color: C.textDim, marginTop: 2 }}>{label}</div>
+          <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", textAlign: "center" }}>
+            <div style={{ fontSize: 28, fontWeight: 800, letterSpacing: "-0.04em", color: C.text, lineHeight: 1, fontFamily: "'JetBrains Mono', monospace" }}>{normalized}%</div>
+            <div style={{ fontSize: 12, color: C.textDim, marginTop: 4 }}>{label}</div>
           </div>
         </div>
         <div style={{ display: "grid", gap: 12 }}>
@@ -117,7 +117,7 @@ export function DonutScore({ score, label, detail }) {
             <div key={item.label} style={{ display: "grid", gap: 6 }}>
               <div style={{ display: "flex", justifyContent: "space-between", fontSize: 13 }}>
                 <span style={{ color: C.textDim }}>{item.label}</span>
-                <span style={{ color: item.color, fontWeight: 700 }}>{item.value}</span>
+                <span style={{ color: item.color, fontWeight: 700, fontFamily: "'JetBrains Mono', monospace" }}>{item.value}</span>
               </div>
               <Progress value={item.label === "Critical" ? 82 : item.label === "High" ? 68 : item.label === "Resolved" ? 54 : 78} color={item.color} height={7} />
             </div>
@@ -172,11 +172,11 @@ export function AnalyticsChart({ title, values, tabValue, setTabValue, rangeValu
         ].map((item) => (
           <div key={item.label} className="card" style={{ padding: 12, display: "grid", gap: 6 }}>
             <div style={{ color: C.textDim, fontSize: 11, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase" }}>{item.label}</div>
-            <div style={{ color: item.tone, fontSize: 24, fontWeight: 800, letterSpacing: "-0.04em", lineHeight: 1 }}>{item.value}</div>
+            <div style={{ color: item.tone, fontSize: 24, fontWeight: 800, letterSpacing: "-0.04em", lineHeight: 1, fontFamily: "'JetBrains Mono', monospace" }}>{item.value}</div>
           </div>
         ))}
       </div>
-      <div className="card" style={{ border: `1px solid ${C.border}`, borderRadius: C.radiusLg, background: "linear-gradient(180deg, #ffffff 0%, #fbfdff 100%)", padding: 16 }}>
+      <div className="card" style={{ border: `1px solid ${C.border}`, borderRadius: C.radiusLg, background: "rgba(9, 14, 26, 0.6)", backdropFilter: "blur(12px)", padding: 16 }}>
         <svg viewBox={`0 0 ${w} ${h}`} style={{ width: "100%", height: "auto", display: "block" }}>
           <defs>
             <linearGradient id="analytics-fill" x1="0%" y1="0%" x2="0%" y2="100%">

@@ -48,11 +48,11 @@ const insertUser = db.prepare(`
 `);
 
 const users = [
-  { id: randomUUID(), email: 'meredith.lane@policyguard.ai', name: 'Meredith Lane', role: 'compliance_lead' },
-  { id: randomUUID(), email: 'sarah.chen@policyguard.ai', name: 'Sarah Chen', role: 'senior_analyst' },
-  { id: randomUUID(), email: 'marcus.patel@policyguard.ai', name: 'Marcus Patel', role: 'analyst' },
-  { id: randomUUID(), email: 'alex.gomez@policyguard.ai', name: 'Alex Gomez', role: 'analyst' },
-  { id: randomUUID(), email: 'lisa.khan@policyguard.ai', name: 'Lisa Khan', role: 'analyst' },
+  { id: randomUUID(), email: 'vikas@policyguard.ai', name: 'Vikas Kumar Singh', role: 'compliance_lead' },
+  { id: randomUUID(), email: 'senior.analyst@policyguard.ai', name: 'Senior Analyst', role: 'senior_analyst' },
+  { id: randomUUID(), email: 'analyst1@policyguard.ai', name: 'Analyst 1', role: 'analyst' },
+  { id: randomUUID(), email: 'analyst2@policyguard.ai', name: 'Analyst 2', role: 'analyst' },
+  { id: randomUUID(), email: 'analyst3@policyguard.ai', name: 'Analyst 3', role: 'analyst' },
   { id: randomUUID(), email: 'admin@policyguard.ai', name: 'System Admin', role: 'admin' }
 ];
 

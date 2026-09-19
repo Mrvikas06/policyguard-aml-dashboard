@@ -3,7 +3,7 @@
 // ─────────────────────────────────────────────────────────────────────────────
 
 import { useState, useEffect } from "react";
-import { C, cn } from "../theme/colors";
+import { C } from "../theme/colors";
 import { Button } from "../components/ui/Button";
 import { Card, CardHeader, CardContent, CardTitle, CardDescription } from "../components/ui/Card";
 import { Progress } from "../components/ui/Progress";
@@ -86,7 +86,7 @@ export function SentinelView() {
           <CardContent style={{ padding: 20, display: "grid", gap: 8 }}>
             <div style={{ color: C.textDim, fontSize: 11.5, fontWeight: 700, letterSpacing: "0.05em", textTransform: "uppercase" }}>System Health</div>
             <div style={{ display: "flex", alignItems: "baseline", gap: 8 }}>
-              <div style={{ color: health.system_health >= 99.5 ? C.resolved : health.system_health >= 99 ? C.high : C.critical, fontSize: 36, fontWeight: 800 }}>{health.system_health.toFixed(1)}%</div>
+              <div style={{ color: health.system_health >= 99.5 ? C.resolved : health.system_health >= 99 ? C.high : C.critical, fontSize: 36, fontWeight: 800, fontFamily: "'JetBrains Mono', monospace" }}>{health.system_health.toFixed(1)}%</div>
               <Badge variant="soft" color={health.system_health >= 99.5 ? C.resolved : C.high} size="sm">Operational</Badge>
             </div>
             <Progress value={health.system_health} color={health.system_health >= 99.5 ? C.resolved : C.high} height={6} />
@@ -100,7 +100,7 @@ export function SentinelView() {
               <div style={{ width: 10, height: 10, borderRadius: "50%", background: health.model_status === "Healthy" ? C.resolved : C.critical }} />
               <div style={{ color: health.model_status === "Healthy" ? C.resolved : C.critical, fontSize: 20, fontWeight: 700 }}>{health.model_status}</div>
             </div>
-            <div style={{ color: C.textDim, fontSize: 12 }}>v2.4.1 · Updated 2h ago</div>
+            <div style={{ color: C.textDim, fontSize: 12, fontFamily: "'JetBrains Mono', monospace" }}>v2.4.1 · Updated 2h ago</div>
           </CardContent>
         </Card>
 
@@ -111,7 +111,7 @@ export function SentinelView() {
               <div style={{ width: 10, height: 10, borderRadius: "50%", background: health.pipeline_status === "Stable" ? C.resolved : C.high }} />
               <div style={{ color: health.pipeline_status === "Stable" ? C.resolved : C.high, fontSize: 20, fontWeight: 700 }}>{health.pipeline_status}</div>
             </div>
-            <div style={{ color: C.textDim, fontSize: 12 }}>Queue: {health.queue_count} pending</div>
+            <div style={{ color: C.textDim, fontSize: 12, fontFamily: "'JetBrains Mono', monospace" }}>Queue: {health.queue_count} pending</div>
           </CardContent>
         </Card>
 
@@ -119,7 +119,7 @@ export function SentinelView() {
           <CardContent style={{ padding: 20, display: "grid", gap: 8 }}>
             <div style={{ color: C.textDim, fontSize: 11.5, fontWeight: 700, letterSpacing: "0.05em", textTransform: "uppercase" }}>Latency</div>
             <div style={{ display: "flex", alignItems: "baseline", gap: 8 }}>
-              <div style={{ color: health.latency <= 150 ? C.resolved : health.latency <= 300 ? C.high : C.critical, fontSize: 36, fontWeight: 800 }}>{health.latency}ms</div>
+              <div style={{ color: health.latency <= 150 ? C.resolved : health.latency <= 300 ? C.high : C.critical, fontSize: 36, fontWeight: 800, fontFamily: "'JetBrains Mono', monospace" }}>{health.latency}ms</div>
               <Badge variant="soft" color={health.latency <= 150 ? C.resolved : health.latency <= 300 ? C.high : C.critical} size="sm">
                 {health.latency <= 150 ? "Optimal" : health.latency <= 300 ? "Elevated" : "Degraded"}
               </Badge>
@@ -147,7 +147,7 @@ export function SentinelView() {
                   <span style={{ fontSize: 18 }}>{item.icon}</span>
                   <span style={{ color: C.text, fontSize: 13.5, fontWeight: 600 }}>{item.label}</span>
                 </div>
-                <div style={{ color: item.color, fontSize: 24, fontWeight: 800 }}>{item.value}%</div>
+                <div style={{ color: item.color, fontSize: 24, fontWeight: 800, fontFamily: "'JetBrains Mono', monospace" }}>{item.value}%</div>
               </div>
               <Progress value={item.value} color={item.color} height={8} />
             </div>

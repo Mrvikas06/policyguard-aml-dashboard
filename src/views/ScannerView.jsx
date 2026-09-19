@@ -94,7 +94,10 @@ export function ScannerView({ onRunScan }) {
               </div>
               <Progress value={runningJob.progress} color={C.brand} height={10} showLabel label={`${runningJob.progress}% complete`} />
               <div style={{ display: "flex", justifyContent: "space-between", color: C.textDim, fontSize: 12 }}>
-                <span>Tables: {JSON.parse(runningJob.tables_scanned || '[]').join(", ")}</span>
+                <span>Tables: {(() => {
+                  try { return JSON.parse(runningJob.tables_scanned || '[]').join(", "); }
+                  catch { return String(runningJob.tables_scanned || ''); }
+                })()}</span>
                 <span>Violations found: {runningJob.violations_found || 0}</span>
               </div>
             </div>
@@ -158,8 +161,12 @@ export function ScannerView({ onRunScan }) {
                   <td style={{ color: C.textDim }}>{new Date(job.started_at).toLocaleString()}</td>
                   <td style={{ color: C.textDim }}>{job.completed_at ? new Date(job.completed_at).toLocaleString() : "—"}</td>
                   <td style={{ fontSize: 12, color: C.textDim }}>
-                    {JSON.parse(job.tables_scanned || '[]').slice(0, 3).join(", ")}
-                    {JSON.parse(job.tables_scanned || '[]').length > 3 && "..."}
+                    {(() => {
+                      try {
+                        const parsed = JSON.parse(job.tables_scanned || '[]');
+                        return Array.isArray(parsed) ? parsed.slice(0, 3).join(", ") + (parsed.length > 3 ? "..." : "") : String(job.tables_scanned);
+                      } catch { return String(job.tables_scanned || ''); }
+                    })()}
                   </td>
                   <td style={{ fontWeight: 600, color: job.violations_found > 10 ? C.critical : job.violations_found > 5 ? C.high : C.medium }}>{job.violations_found}</td>
                   <td><Button variant="ghost" size="sm" tone="slate">Details</Button></td>

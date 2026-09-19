@@ -45,7 +45,7 @@ export function CasesView({ openCase }) {
           analyst_id: "1",
           risk_score: Math.floor(Math.random() * 40) + 60,
           notes: `Case ${1040 + i}: ${2} threat(s) linked. Under active investigation.`,
-          analyst_name: ["Meredith Lane", "Sarah Chen", "Marcus Patel", "Alex Gomez"][i % 4],
+          analyst_name: ["Vikas Kumar Singh", "Senior Analyst", "Analyst 1", "Analyst 2"][i % 4],
           created_at: Date.now() - i * 86400000,
         })));
         setTotal(25);
@@ -108,11 +108,15 @@ export function CasesView({ openCase }) {
                 {cases.map((c) => (
                   <tr key={c.id} className="table-row clickable" onClick={() => { setSelectedCase(c); openCase?.(c); }}>
                     <td style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 700, color: C.text }}>{c.case_id}</td>
-                    <td style={{ color: C.textDim, fontSize: 12 }}>{c.threat_ids.split(",").map(t => `<span style="font-family:'JetBrains Mono',monospace">${t.trim()}</span>`).join(" ")}</td>
+                    <td style={{ color: C.textDim, fontSize: 12 }}>
+                      {(c.threat_ids || "").split(",").map((t, idx) => (
+                        <span key={idx} style={{ fontFamily: "'JetBrains Mono', monospace", marginRight: 6, background: "rgba(255, 255, 255, 0.06)", padding: "2px 6px", borderRadius: 4 }}>{t.trim()}</span>
+                      ))}
+                    </td>
                     <td><Badge status={c.status} size="sm" /></td>
-                    <td style={{ fontWeight: 600, color: c.risk_score >= 80 ? C.critical : c.risk_score >= 60 ? C.high : C.medium }}>{c.risk_score}</td>
+                    <td style={{ fontWeight: 700, color: c.risk_score >= 80 ? C.critical : c.risk_score >= 60 ? C.high : C.medium, fontFamily: "'JetBrains Mono', monospace" }}>{c.risk_score}</td>
                     <td style={{ color: C.textDim, fontSize: 13 }}>{c.analyst_name}</td>
-                    <td style={{ color: C.textDim, fontSize: 12 }}>{formatRelative(c.created_at)}</td>
+                    <td style={{ color: C.textDim, fontSize: 12, fontFamily: "'JetBrains Mono', monospace" }}>{formatRelative(c.created_at)}</td>
                     <td><Button variant="ghost" size="sm" tone="accent">Open</Button></td>
                   </tr>
                 ))}

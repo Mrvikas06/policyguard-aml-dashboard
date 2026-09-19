@@ -3,12 +3,13 @@
 // ─────────────────────────────────────────────────────────────────────────────
 
 import { useState, useEffect } from "react";
-import { C, GLOBAL_CSS, riskColor, riskLabel, formatNumber, formatCurrency, formatRelative } from "../theme/colors";
+import { C, riskColor, riskLabel, formatNumber, formatCurrency, formatRelative } from "../theme/colors";
 import { Button } from "../components/ui/Button";
 import { Card, CardHeader, CardContent, CardTitle, CardDescription } from "../components/ui/Card";
 import { Progress } from "../components/ui/Progress";
 import { Tabs } from "../components/ui/Tabs";
 import { Badge } from "../components/ui/Badge";
+import { StatGrid } from "../components/shared";
 
 const QUICK_FILTERS = ["Today", "24 hours", "7 days", "30 days", "Custom"];
 
@@ -103,13 +104,13 @@ export function OverviewView({ openThreat, selectedPeriod, setSelectedPeriod, se
         <div style={{ display: "grid", gridTemplateColumns: "120px 1fr", gap: 20, alignItems: "center" }}>
           <div style={{ position: "relative", width: 120, height: 120, margin: "0 auto" }}>
             <svg width="120" height="120" viewBox="0 0 120 120">
-              <circle cx="60" cy="60" r={radius} fill="none" stroke={C.surfaceAlt} strokeWidth={stroke} />
+              <circle cx="60" cy="60" r={radius} fill="none" stroke="rgba(255, 255, 255, 0.1)" strokeWidth={stroke} />
               <circle cx="60" cy="60" r={radius} fill="none" stroke={ringColor} strokeWidth={stroke} strokeLinecap="round" strokeDasharray={circumference} strokeDashoffset={offset} transform="rotate(-90 60 60)" />
             </svg>
-            <div style={{ position: "absolute", inset: 0, display: "grid", placeItems: "center", textAlign: "center" }}>
-              <div style={{ fontSize: 28, fontWeight: 800, letterSpacing: "-0.04em", color: C.text }}>{normalized}%</div>
-              <div style={{ fontSize: 12, color: C.textDim, marginTop: 2 }}>{label}</div>
-            </div>
+          <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", textAlign: "center" }}>
+            <div style={{ fontSize: 28, fontWeight: 800, letterSpacing: "-0.04em", color: C.text, lineHeight: 1, fontFamily: "'JetBrains Mono', monospace" }}>{normalized}%</div>
+            <div style={{ fontSize: 12, color: C.textDim, marginTop: 4 }}>{label}</div>
+          </div>
           </div>
           <div style={{ display: "grid", gap: 12 }}>
             {[
@@ -121,7 +122,7 @@ export function OverviewView({ openThreat, selectedPeriod, setSelectedPeriod, se
               <div key={item.label} style={{ display: "grid", gap: 6 }}>
                 <div style={{ display: "flex", justifyContent: "space-between", fontSize: 13 }}>
                   <span style={{ color: C.textDim }}>{item.label}</span>
-                  <span style={{ color: item.color, fontWeight: 700 }}>{item.value}</span>
+                  <span style={{ color: item.color, fontWeight: 700, fontFamily: "'JetBrains Mono', monospace" }}>{item.value}</span>
                 </div>
                 <Progress value={item.label === "Critical" ? 82 : item.label === "High" ? 68 : item.label === "Resolved" ? 54 : 78} color={item.color} height={7} />
               </div>
@@ -173,11 +174,11 @@ export function OverviewView({ openThreat, selectedPeriod, setSelectedPeriod, se
           ].map((item) => (
             <div key={item.label} className="card" style={{ padding: 12, display: "grid", gap: 6 }}>
               <div style={{ color: C.textDim, fontSize: 11, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase" }}>{item.label}</div>
-              <div style={{ color: item.tone, fontSize: 24, fontWeight: 800, letterSpacing: "-0.04em", lineHeight: 1 }}>{item.value}</div>
+              <div style={{ color: item.tone, fontSize: 24, fontWeight: 800, letterSpacing: "-0.04em", lineHeight: 1, fontFamily: "'JetBrains Mono', monospace" }}>{item.value}</div>
             </div>
           ))}
         </div>
-        <div className="card" style={{ border: `1px solid ${C.border}`, borderRadius: C.radiusLg, background: "linear-gradient(180deg, #ffffff 0%, #fbfdff 100%)", padding: 16 }}>
+        <div className="card" style={{ border: `1px solid rgba(255, 255, 255, 0.05)`, borderRadius: C.radiusLg, background: "rgba(11, 18, 32, 0.4)", backdropFilter: "blur(12px)", padding: 16 }}>
           <svg viewBox={`0 0 ${w} ${h}`} style={{ width: "100%", height: "auto", display: "block" }}>
             <defs>
               <linearGradient id="analytics-fill" x1="0%" y1="0%" x2="0%" y2="100%">
@@ -316,12 +317,12 @@ export function OverviewView({ openThreat, selectedPeriod, setSelectedPeriod, se
                 {threats.slice(0, 5).map((row) => (
                   <tr key={row.id} className="table-row clickable" onClick={() => openThreat(row)}>
                     <td><Badge severity={row.severity} size="sm" /></td>
-                    <td style={{ fontWeight: 700, color: C.text }}>{row.threat_id}</td>
-                    <td style={{ color: C.textDim }}>{row.rule_id}</td>
+                    <td style={{ fontWeight: 700, color: C.text, fontFamily: "'JetBrains Mono', monospace" }}>{row.threat_id}</td>
+                    <td style={{ color: C.textDim, fontFamily: "'JetBrains Mono', monospace" }}>{row.rule_id}</td>
                     <td style={{ fontFamily: "'JetBrains Mono', monospace", color: C.text }}>{row.txn_id}</td>
                     <td style={{ fontFamily: "'JetBrains Mono', monospace", color: C.text }}>{formatCurrency(row.amount)}</td>
-                    <td style={{ color: C.text }}>{row.riskScore}%</td>
-                    <td style={{ color: C.textDim }}>{row.detected}</td>
+                    <td style={{ color: C.text, fontFamily: "'JetBrains Mono', monospace" }}>{row.riskScore}%</td>
+                    <td style={{ color: C.textDim, fontFamily: "'JetBrains Mono', monospace" }}>{row.detected}</td>
                     <td><Badge status={row.status} size="sm" /></td>
                     <td><Button variant="ghost" size="sm" tone="accent">Open</Button></td>
                   </tr>
@@ -343,8 +344,8 @@ export function OverviewView({ openThreat, selectedPeriod, setSelectedPeriod, se
             <div className="card card-elevated" style={{ padding: 20 }}>
               <div style={{ fontSize: 16, fontWeight: 700, color: C.text, marginBottom: 12 }}>Suspicious layering pattern detected across 4 intermediary accounts.</div>
               <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 12, marginTop: 16 }}>
-                <div><div style={{ color: C.textDim, fontSize: 12 }}>Risk probability</div><div style={{ color: C.critical, fontSize: 28, fontWeight: 800, letterSpacing: "-0.04em" }}>94%</div></div>
-                <div><div style={{ color: C.textDim, fontSize: 12 }}>Estimated exposure</div><div style={{ color: C.text, fontSize: 28, fontWeight: 800, letterSpacing: "-0.04em" }}>{formatCurrency(75000)}</div></div>
+                <div><div style={{ color: C.textDim, fontSize: 12 }}>Risk probability</div><div style={{ color: C.critical, fontSize: 28, fontWeight: 800, letterSpacing: "-0.04em", fontFamily: "'JetBrains Mono', monospace" }}>94%</div></div>
+                <div><div style={{ color: C.textDim, fontSize: 12 }}>Estimated exposure</div><div style={{ color: C.text, fontSize: 28, fontWeight: 800, letterSpacing: "-0.04em", fontFamily: "'JetBrains Mono', monospace" }}>{formatCurrency(75000)}</div></div>
               </div>
             </div>
             {["Transaction layering", "High velocity", "Unusual routing", "Structuring behavior"].map((item) => (
@@ -353,24 +354,23 @@ export function OverviewView({ openThreat, selectedPeriod, setSelectedPeriod, se
               </div>
             ))}
             <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginTop: 8 }}>
-              <Button tone="accent">Investigate</Button>
-              <Button variant="outline" tone="brand">Create Case</Button>
-              <Button variant="outline" tone="slate">Generate Report</Button>
+              <Button tone="accent" onClick={() => setPage?.("investigation")}>Investigate</Button>
+              <Button variant="outline" tone="brand" onClick={() => setPage?.("cases")}>Create Case</Button>
+              <Button variant="outline" tone="slate" onClick={() => setPage?.("reports")}>Generate Report</Button>
             </div>
           </CardContent>
         </Card>
       </div>
-
       <Card>
         <CardHeader>
           <CardTitle>Transaction Network</CardTitle>
           <CardDescription>Interactive graph — click nodes to inspect connections</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="card graph-shell" style={{ padding: 16, minHeight: 360, background: "linear-gradient(180deg, #ffffff 0%, #fbfdff 100%)" }}>
-            <div style={{ position: "absolute", inset: 0, pointerEvents: "none", backgroundImage: `linear-gradient(${C.border}66 1px, transparent 1px), linear-gradient(90deg, ${C.border}66 1px, transparent 1px)`, backgroundSize: "48px 48px", opacity: 0.28 }} />
+          <div className="card graph-shell" style={{ padding: 16, minHeight: 360, background: "rgba(15, 23, 42, 0.3)", backdropFilter: "blur(12px)", border: "1px solid rgba(255, 255, 255, 0.05)" }}>
+            <div style={{ position: "absolute", inset: 0, pointerEvents: "none", backgroundImage: `linear-gradient(rgba(59, 130, 246, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(59, 130, 246, 0.1) 1px, transparent 1px)`, backgroundSize: "48px 48px", opacity: 0.8 }} />
             <div style={{ position: "relative", zIndex: 1 }}>
-              <NetworkGraphPreview onExplain={() => openThreat(threats[3])} />
+              <NetworkGraphPreview onExplain={() => {}} />
             </div>
           </div>
         </CardContent>
@@ -382,52 +382,100 @@ export function OverviewView({ openThreat, selectedPeriod, setSelectedPeriod, se
 // Mini network graph for overview
 function NetworkGraphPreview({ onExplain }) {
   const nodes = [
-    { id: "ACC-2200", x: 124, y: 118, risk: C.critical },
-    { id: "ACC-6650", x: 244, y: 96, risk: C.high },
-    { id: "ACC-7712", x: 346, y: 162, risk: C.critical },
-    { id: "ACC-3301", x: 450, y: 92, risk: C.high },
-    { id: "ACC-9982", x: 560, y: 170, risk: C.resolved },
-    { id: "ACC-1190", x: 286, y: 262, risk: C.medium },
-    { id: "ACC-8840", x: 420, y: 278, risk: C.high },
+    { id: "ACC-2200", x: 120, y: 120, risk: C.critical, label: "Origin", size: 24 },
+    { id: "ACC-6650", x: 260, y: 80, risk: C.high, label: "Intermediary", size: 18 },
+    { id: "ACC-7712", x: 380, y: 180, risk: C.critical, label: "Mixer", size: 28 },
+    { id: "ACC-3301", x: 500, y: 100, risk: C.high, label: "Offshore", size: 20 },
+    { id: "ACC-9982", x: 580, y: 220, risk: C.resolved, label: "Clear", size: 16 },
+    { id: "ACC-1190", x: 280, y: 280, risk: C.medium, label: "Shell Corp", size: 20 },
+    { id: "ACC-8840", x: 440, y: 280, risk: C.high, label: "Destination", size: 24 },
   ];
-  const links = [[0, 1], [1, 2], [2, 3], [1, 5], [5, 6], [2, 4], [0, 5]];
+  const links = [
+    [0, 1], [1, 2], [2, 3], [1, 5], [5, 6], [2, 4], [0, 5], [2, 6]
+  ];
 
   return (
-    <div style={{ width: "100%", height: 340 }}>
-      <svg viewBox="0 0 680 360" style={{ width: "100%", height: "auto" }}>
+    <div style={{ width: "100%", height: 340, position: "relative" }}>
+      <svg viewBox="0 0 680 360" style={{ width: "100%", height: "auto", overflow: "visible" }}>
         <defs>
-          <marker id="arrow" markerWidth="5" markerHeight="5" refX="4" refY="2.5" orient="auto">
-            <path d="M0,0 L5,2.5 L0,5" fill={C.borderLight} />
+          <radialGradient id="node-glow-critical" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stopColor={C.critical} stopOpacity="0.4" />
+            <stop offset="100%" stopColor={C.critical} stopOpacity="0" />
+          </radialGradient>
+          <radialGradient id="node-glow-high" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stopColor={C.high} stopOpacity="0.4" />
+            <stop offset="100%" stopColor={C.high} stopOpacity="0" />
+          </radialGradient>
+          <marker id="arrow" markerWidth="6" markerHeight="6" refX="28" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+            <path d="M0,0 L6,3 L0,6" fill={C.brand} opacity="0.9" />
           </marker>
         </defs>
+
+        {/* Animated flow line for suspicious path */}
+        <path 
+           d={`M ${nodes[0].x} ${nodes[0].y} L ${nodes[1].x} ${nodes[1].y} L ${nodes[2].x} ${nodes[2].y} L ${nodes[6].x} ${nodes[6].y}`} 
+           fill="none" 
+           stroke={C.brand} 
+           strokeWidth="2.5" 
+           strokeDasharray="6 8"
+           opacity="0.8"
+           className="animate-flow"
+        />
+
         {links.map(([a, b], idx) => {
           const n1 = nodes[a];
           const n2 = nodes[b];
-          const highlighted = idx === 1 || idx === 2;
+          const suspicious = [0,1,2].includes(idx) || (a===2 && b===6);
           return (
             <line
               key={idx}
               x1={n1.x} y1={n1.y} x2={n2.x} y2={n2.y}
-              stroke={highlighted ? C.brand : C.borderLight}
-              strokeWidth={highlighted ? 3 : 2}
-              strokeDasharray={idx === 2 ? "5 4" : "0"}
-              opacity={highlighted ? 0.9 : 0.5}
+              stroke={suspicious ? C.brand : "rgba(255,255,255,0.15)"}
+              strokeWidth={suspicious ? 2 : 1.5}
+              strokeDasharray={suspicious ? "none" : "4 4"}
+              opacity={suspicious ? 0.6 : 0.4}
               strokeLinecap="round"
-              markerEnd="url(#arrow)"
+              markerEnd={suspicious ? "url(#arrow)" : "none"}
             />
           );
         })}
-        {nodes.map((node) => (
-          <g key={node.id} style={{ cursor: "pointer" }}>
-            <circle cx={node.x} cy={node.y} r={16} fill="#fff" stroke={node.risk} strokeWidth="2.5" />
-            <circle cx={node.x} cy={node.y} r="4" fill={node.risk} />
-            <text x={node.x} y={node.y + 34} textAnchor="middle" fontSize="12" fill={C.text} fontWeight="600" style={{ fontFamily: "'Inter', sans-serif" }}>{node.id}</text>
-          </g>
-        ))}
+
+        {nodes.map((node) => {
+          const glowId = node.risk === C.critical ? "url(#node-glow-critical)" : 
+                         node.risk === C.high ? "url(#node-glow-high)" : 
+                         "none";
+          return (
+            <g key={node.id} className="hover-scale" style={{ cursor: "pointer", outline: "none" }}>
+              <circle cx={node.x} cy={node.y} r={node.size * 2.2} fill={glowId} style={{ pointerEvents: "none" }} />
+              <circle cx={node.x} cy={node.y} r={node.size} fill="var(--color-bg-elevated)" stroke={node.risk} strokeWidth="3" />
+              <circle cx={node.x} cy={node.y} r={4} fill={node.risk} />
+              <text x={node.x} y={node.y + node.size + 16} textAnchor="middle" fontSize="12" fill={C.text} fontWeight="600" style={{ fontFamily: "'Inter', sans-serif", pointerEvents: "none" }}>{node.id}</text>
+              <text x={node.x} y={node.y + node.size + 30} textAnchor="middle" fontSize="11" fill={C.textDim} style={{ fontFamily: "'Inter', sans-serif", pointerEvents: "none" }}>{node.label}</text>
+            </g>
+          );
+        })}
       </svg>
-      <div style={{ display: "flex", justifyContent: "space-between", color: C.textDim, fontSize: 12, marginTop: 8 }}>
-        <span>Suspicious cluster highlighted in blue.</span>
-        <Button variant="ghost" size="sm" tone="accent" onClick={onExplain}>Explain Network</Button>
+      <style>{`
+        .animate-flow {
+          animation: dash-flow 20s linear infinite;
+        }
+        @keyframes dash-flow {
+          to { stroke-dashoffset: -1000; }
+        }
+        .hover-scale {
+          transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+          transform-origin: center;
+        }
+        .hover-scale:hover {
+          transform: translateY(-2px) scale(1.03);
+        }
+      `}</style>
+      <div style={{ display: "flex", justifyContent: "space-between", color: C.textDim, fontSize: 13, marginTop: 8, padding: "0 16px" }}>
+        <span style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          <span style={{ width: 8, height: 8, background: C.brand, borderRadius: "50%", display: "inline-block", boxShadow: `0 0 8px ${C.brand}` }}></span>
+          Suspicious layering path detected
+        </span>
+        <Button variant="ghost" size="sm" tone="accent" onClick={onExplain}>Explain AI Reasoning</Button>
       </div>
     </div>
   );

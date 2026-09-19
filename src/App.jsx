@@ -5,7 +5,7 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 
-import { C, GLOBAL_CSS, SEVER, STATUS, formatTime, formatDate } from "./theme/colors";
+import { C, SEVER, STATUS, formatTime, formatDate } from "./theme/colors";
 import { Toast, ToastContainer } from "./components/ui/Toast";
 import { Button } from "./components/ui/Button";
 import { Card, CardHeader, CardContent, CardTitle, CardDescription } from "./components/ui/Card";
@@ -41,6 +41,8 @@ import { api } from "./services/api";
 // Auth context
 import { AuthProvider, useAuth } from "./contexts/AuthContext";
 
+import { BrandMark } from "./components/ui/BrandMark";
+
 const NAV_GROUPS = [
   { label: "Platform", items: [{ id: "overview", label: "Overview", icon: "home" }] },
   { label: "Threat Intelligence", items: [
@@ -65,24 +67,6 @@ const NAV_GROUPS = [
 ];
 
 const QUICK_FILTERS = ["Today", "24 hours", "7 days", "30 days", "Custom"];
-
-function BrandMark({ size = 34 }) {
-  return (
-    <svg viewBox="0 0 64 64" width={size} height={size} aria-hidden="true">
-      <defs>
-        <linearGradient id="pg-brand" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor={C.brand} />
-          <stop offset="100%" stopColor={C.accent} />
-        </linearGradient>
-      </defs>
-      <path d="M20 12h18c8.8 0 16 7.2 16 16s-7.2 16-16 16H30v8H20V12zm10 10v12h7.5c3.3 0 6-2.7 6-6s-2.7-6-6-6H30z" fill="url(#pg-brand)" />
-      <path d="M32 8 49 16v16c0 10.8-8 18-17 24-9-6-17-13.2-17-24V16l17-8z" fill="none" stroke="url(#pg-brand)" strokeWidth="2.2" strokeLinejoin="round" />
-      <circle cx="22" cy="26" r="2.2" fill="#fff" opacity="0.95" />
-      <circle cx="42" cy="20" r="2.2" fill="#fff" opacity="0.95" />
-      <circle cx="45" cy="42" r="2.2" fill="#fff" opacity="0.95" />
-    </svg>
-  );
-}
 
 function SectionHeading({ eyebrow, title, description, actions, children }) {
   return (
@@ -155,6 +139,9 @@ function AppContent() {
   const [selectedPeriod, setSelectedPeriod] = useState("Today");
   const [selectedRiskMetric, setSelectedRiskMetric] = useState("Risk Score");
   const [threatPage, setThreatPage] = useState(1);
+  const [_mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
+  const [clock, setClock] = useState(new Date());
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [globalLoading, setGlobalLoading] = useState(false);
 
   useEffect(() => {
@@ -197,7 +184,7 @@ function AppContent() {
 
   const content = useMemo(() => {
     switch (page) {
-      case "overview": return <OverviewView openThreat={openThreat} threatPage={threatPage} setThreatPage={setThreatPage} selectedPeriod={selectedPeriod} setSelectedPeriod={setSelectedPeriod} selectedRiskMetric={selectedRiskMetric} setSelectedRiskMetric={setSelectedRiskMetric} />;
+      case "overview": return <OverviewView setPage={setPage} openThreat={openThreat} threatPage={threatPage} setThreatPage={setThreatPage} selectedPeriod={selectedPeriod} setSelectedPeriod={setSelectedPeriod} selectedRiskMetric={selectedRiskMetric} setSelectedRiskMetric={setSelectedRiskMetric} />;
       case "threats": return <ThreatsView search={search} threatPage={threatPage} setThreatPage={setThreatPage} openThreat={openThreat} />;
       case "transactions": return <TransactionsView search={search} openThreat={openThreat} />;
       case "network": return <NetworkView />;
@@ -209,14 +196,13 @@ function AppContent() {
       case "investigation": return <InvestigationView threat={selectedThreat} onClose={() => { setSelectedThreat(null); setPage("threats"); }} />;
       case "audit": return <AuditView />;
       case "settings": return <SettingsView />;
-      default: return <OverviewView openThreat={openThreat} threatPage={threatPage} setThreatPage={setThreatPage} selectedPeriod={selectedPeriod} setSelectedPeriod={setSelectedPeriod} selectedRiskMetric={selectedRiskMetric} setSelectedRiskMetric={setSelectedRiskMetric} />;
+      default: return <OverviewView setPage={setPage} openThreat={openThreat} threatPage={threatPage} setThreatPage={setThreatPage} selectedPeriod={selectedPeriod} setSelectedPeriod={setSelectedPeriod} selectedRiskMetric={selectedRiskMetric} setSelectedRiskMetric={setSelectedRiskMetric} />;
     }
   }, [page, search, selectedThreat, threatPage, selectedPeriod, selectedRiskMetric, openThreat, openCase, runScan]);
 
   if (authLoading) {
     return (
       <div className="app-shell" style={{ minHeight: "100vh", display: "grid", placeItems: "center" }}>
-        <style>{GLOBAL_CSS}</style>
         <div className="skeleton" style={{ width: 200, height: 200, borderRadius: "50%" }} />
       </div>
     );
@@ -228,10 +214,9 @@ function AppContent() {
 
   return (
     <div className="app-shell">
-      <style>{GLOBAL_CSS}</style>
       <ToastContainer toasts={toasts} onClose={removeToast} />
       
-      <div className="app-layout" style={{ display: "grid", minHeight: "100vh" }}>
+      <div className="app-layout" style={{ display: "grid", gridTemplateColumns: "auto 1fr", minHeight: "100vh" }}>
         <Sidebar
           page={page}
           setPage={setPage}
@@ -272,10 +257,14 @@ function AppContent() {
 }
 
 function LoginPage() {
-  const { login, loading } = useAuth();
-  const [email, setEmail] = useState("meredith.lane@policyguard.ai");
+  const { user, login, loading } = useAuth();
+  const [email, setEmail] = useState("vikas@policyguard.ai");
   const [password, setPassword] = useState("password123");
   const [error, setError] = useState("");
+
+  if (user) {
+    return <Navigate to="/" replace />;
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -289,7 +278,6 @@ function LoginPage() {
 
   return (
     <div className="app-shell" style={{ minHeight: "100vh", display: "grid", placeItems: "center", padding: 20 }}>
-      <style>{GLOBAL_CSS}</style>
       <Card className="card-elevated" style={{ width: "100%", maxWidth: 420 }}>
         <CardContent style={{ padding: 32, display: "grid", gap: 24 }}>
           <div style={{ textAlign: "center" }}>
@@ -304,7 +292,7 @@ function LoginPage() {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="meredith.lane@policyguard.ai"
+                placeholder="vikas@policyguard.ai"
                 disabled={loading}
               />
             </div>
@@ -323,8 +311,8 @@ function LoginPage() {
               Sign In
             </Button>
           </form>
-          <div style={{ marginTop: 8, paddingTop: 16, borderTop: `1px solid ${C.border}`, color: C.textDim, fontSize: 12, textAlign: "center" }}>
-            Demo: meredith.lane@policyguard.ai / password123
+          <div style={{ marginTop: 8, paddingTop: 16, borderTop: `1px solid var(--color-border)`, color: "var(--color-text-dim)", fontSize: 12, textAlign: "center" }}>
+            Demo: vikas@policyguard.ai / password123
           </div>
         </CardContent>
       </Card>

@@ -2,8 +2,10 @@
 // Sidebar — Collapsible navigation with grouped items
 // ─────────────────────────────────────────────────────────────────────────────
 
-import { useState } from "react";
 import { C, cn } from "../../theme/colors";
+import { Badge } from "../ui/Badge";
+import { Separator } from "../ui/Separator";
+import { BrandMark } from "../ui/BrandMark";
 
 const ICONS = {
   home: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>,
@@ -24,18 +26,17 @@ export function Sidebar({ page, setPage, collapsed = false, setCollapsed, navGro
 
   return (
     <aside
-      className={cn("sidebar-shell", collapsed && "sidebar-collapsed")}
+      className={cn("glass-panel", collapsed && "sidebar-collapsed")}
       style={{
-        width: collapsed ? 72 : 272,
-        minHeight: "100vh",
+        width: collapsed ? 80 : 280,
+        height: "calc(100vh - 32px)",
+        margin: "16px 0 16px 16px",
         position: "sticky",
-        top: 0,
-        background: C.bgElevated,
-        borderRight: `1px solid ${C.border}`,
-        transition: `width ${C.normal}, background ${C.normal}`,
+        top: 16,
+        transition: "width 300ms cubic-bezier(0.4, 0, 0.2, 1), background 300ms",
         display: "flex",
         flexDirection: "column",
-        overflow: "hidden",
+        overflow: "visible",
         zIndex: C.zSticky,
       }}
     >
@@ -49,50 +50,15 @@ export function Sidebar({ page, setPage, collapsed = false, setCollapsed, navGro
         )}
       </div>
 
-      {!collapsed && (
-        <div style={{ padding: 16, borderBottom: `1px solid ${C.border}`, flexShrink: 0 }}>
-          <div className="card" style={{ padding: 14, display: "grid", gap: 10 }}>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 8 }}>
-              <div>
-                <div style={{ color: C.textDim, fontSize: 11, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase" }}>Workspace</div>
-                <div style={{ color: C.text, fontSize: 14, fontWeight: 700, marginTop: 2 }}>Compliance Command Center</div>
-              </div>
-              <Badge variant="soft" color={C.brand} size="sm">Live</Badge>
-            </div>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 8 }}>
-              <div className="card" style={{ padding: 10 }}>
-                <div style={{ color: C.textDim, fontSize: 10.5, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase" }}>Active Page</div>
-                <div style={{ color: C.text, fontSize: 12.5, fontWeight: 600, marginTop: 4 }}>
-                  {navGroups.flatMap(g => g.items).find(i => i.id === page)?.label || "Dashboard"}
-                </div>
-              </div>
-              <div className="card" style={{ padding: 10 }}>
-                <div style={{ color: C.textDim, fontSize: 10.5, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase" }}>Section</div>
-                <div style={{ color: C.text, fontSize: 12.5, fontWeight: 600, marginTop: 4 }}>
-                  {navGroups.find(g => g.items.some(i => i.id === page))?.label || "Platform"}
-                </div>
-              </div>
-            </div>
-            <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
-              <Badge variant="soft" color={C.ai} size="sm">Realtime</Badge>
-              <Badge variant="soft" color={C.high} size="sm">AML Ops</Badge>
-            </div>
-          </div>
-        </div>
-      )}
-
-      <nav style={{ flex: 1, padding: collapsed ? 12 : 16, overflowY: "auto", display: "flex", flexDirection: "column", gap: collapsed ? 8 : 16 }}>
-        {!collapsed && <Separator variant="gradient" />}
-
-        {navGroups.map((group, gIdx) => (
+      <nav style={{ flex: 1, padding: collapsed ? 12 : 16, overflowY: "auto", display: "flex", flexDirection: "column", gap: collapsed ? 12 : 20 }}>
+        {navGroups.map((group) => (
           <div key={group.label} style={{ display: "flex", flexDirection: "column", gap: 8 }}>
             {!collapsed && (
               <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8, padding: "0 8px" }}>
                 <div style={{ color: C.textMuted, fontSize: 10.5, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase" }}>{group.label}</div>
-                <Badge variant="outline" size="xs" style={{ fontSize: 10 }}>{group.items.length}</Badge>
               </div>
             )}
-            <div style={{ display: "grid", gap: 4 }}>
+            <div style={{ display: "grid", gap: 6 }}>
               {group.items.map((item) => {
                 const active = page === item.id;
                 const Icon = ICONS[item.icon] || ICONS.home;
@@ -109,35 +75,44 @@ export function Sidebar({ page, setPage, collapsed = false, setCollapsed, navGro
                       alignItems: "center",
                       gap: collapsed ? 0 : 12,
                       width: "100%",
-                      padding: collapsed ? "12px" : "11px 12px",
-                      borderRadius: C.radius,
-                      background: active ? C.brandSoft : "transparent",
-                      color: active ? C.brand : C.textDim,
-                      border: "none",
+                      padding: collapsed ? "12px" : "11px 16px",
+                      borderRadius: "12px",
+                      background: active ? "rgba(59, 130, 246, 0.15)" : "transparent",
+                      color: active ? "var(--color-brand-light)" : "var(--color-text-dim)",
+                      border: "1px solid",
+                      borderColor: active ? "rgba(59, 130, 246, 0.3)" : "transparent",
                       cursor: "pointer",
-                      transition: `all ${C.fast}`,
+                      transition: "all 200ms ease",
                       justifyContent: collapsed ? "center" : "flex-start",
                       position: "relative",
                       overflow: "hidden",
-                      fontSize: 13.5,
-                      fontWeight: active ? 700 : 500,
+                      fontSize: 14,
+                      fontWeight: active ? 600 : 500,
+                      boxShadow: active ? "0 0 10px rgba(59, 130, 246, 0.1)" : "none",
                     }}
-                    onMouseEnter={() => !collapsed && setHoveredGroup(gIdx)}
-                    onMouseLeave={() => setHoveredGroup(null)}
+                    onMouseOver={(e) => {
+                      if (!active) {
+                        e.currentTarget.style.background = "rgba(255, 255, 255, 0.05)";
+                        e.currentTarget.style.color = "var(--color-text)";
+                      }
+                    }}
+                    onMouseOut={(e) => {
+                      if (!active) {
+                        e.currentTarget.style.background = "transparent";
+                        e.currentTarget.style.color = "var(--color-text-dim)";
+                      }
+                    }}
                   >
-                    <span style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", width: 20, height: 20, flexShrink: 0, color: active ? C.brand : C.textDim }}>
+                    <span style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", width: 22, height: 22, flexShrink: 0, color: active ? "var(--color-brand-light)" : "var(--color-text-dim)" }}>
                       {Icon}
                     </span>
                     {!collapsed && (
-                      <span style={{ display: "grid", gap: 2, minWidth: 0, flex: 1 }}>
-                        <span style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8 }}>
-                          <span style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", color: active ? C.text : C.textDim }}>{item.label}</span>
-                          {active && <span style={{ fontSize: 10.5, fontWeight: 700, color: C.brand, whiteSpace: "nowrap" }}>Current</span>}
-                        </span>
+                      <span style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8, flex: 1, minWidth: 0 }}>
+                        <span style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{item.label}</span>
                       </span>
                     )}
                     {active && !collapsed && (
-                      <span style={{ position: "absolute", left: 0, top: 0, bottom: 0, width: 3, background: C.brand, borderRadius: `${C.radiusFull} 0 0 ${C.radiusFull}` }} />
+                      <span style={{ position: "absolute", left: -1, top: 8, bottom: 8, width: 4, background: "var(--color-brand-light)", borderRadius: "0 4px 4px 0", boxShadow: "0 0 8px var(--color-brand-light)" }} />
                     )}
                   </button>
                 );
@@ -151,56 +126,61 @@ export function Sidebar({ page, setPage, collapsed = false, setCollapsed, navGro
             type="button"
             className="nav-item"
             onClick={() => setPage("settings")}
-            style={{ justifyContent: collapsed ? "center" : "flex-start", gap: collapsed ? 0 : 12 }}
+            style={{ 
+              display: "flex", 
+              alignItems: "center", 
+              width: "100%", 
+              background: "transparent", 
+              border: "none",
+              color: "var(--color-text-dim)",
+              padding: collapsed ? "12px" : "11px 16px",
+              borderRadius: "12px",
+              cursor: "pointer",
+              transition: "all 200ms ease",
+              justifyContent: collapsed ? "center" : "flex-start", gap: collapsed ? 0 : 12 
+            }}
+            onMouseOver={(e) => {
+              e.currentTarget.style.background = "rgba(255, 255, 255, 0.05)";
+              e.currentTarget.style.color = "var(--color-text)";
+            }}
+            onMouseOut={(e) => {
+              e.currentTarget.style.background = "transparent";
+              e.currentTarget.style.color = "var(--color-text-dim)";
+            }}
           >
-            <span style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", width: 20, height: 20, flexShrink: 0, color: C.textDim }}>
+            <span style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", width: 22, height: 22, flexShrink: 0 }}>
               {ICONS.settings}
             </span>
-            {!collapsed && <span>Settings</span>}
+            {!collapsed && <span style={{ fontSize: 14, fontWeight: 500 }}>Settings</span>}
           </button>
         </div>
       </nav>
 
-      {!collapsed && (
-        <div style={{ padding: 16, borderTop: `1px solid ${C.border}`, flexShrink: 0 }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 10, padding: 10, background: C.surfaceAlt, borderRadius: C.radius, border: `1px solid ${C.border}` }}>
-            <div style={{ width: 36, height: 36, borderRadius: 10, display: "grid", placeItems: "center", background: `linear-gradient(135deg, ${C.brand}, ${C.accent})`, color: "#fff", fontWeight: 700, fontSize: 13 }}>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-            </div>
-            <div style={{ flex: 1, minWidth: 0 }}>
-              <div style={{ color: C.text, fontSize: 12.5, fontWeight: 600 }}>Last sync: 2 min ago</div>
-              <div style={{ color: C.textDim, fontSize: 11 }}>All systems operational</div>
-            </div>
-          </div>
-        </div>
-      )}
-
       <button
         type="button"
         onClick={() => setCollapsed(!collapsed)}
-        className="collapse-toggle"
         aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
         style={{
           position: "absolute",
-          right: -12,
-          top: 120,
-          width: 24,
-          height: 24,
-          borderRadius: C.radiusFull,
-          background: C.surfaceAlt,
-          border: `1px solid ${C.border}`,
-          color: C.textDim,
+          right: -14,
+          top: 32,
+          width: 28,
+          height: 28,
+          borderRadius: "50%",
+          background: "var(--color-surface-alt)",
+          border: `1px solid var(--color-border-light)`,
+          color: "var(--color-text)",
           display: "grid",
           placeItems: "center",
           cursor: "pointer",
-          transition: `all ${C.fast}`,
-          boxShadow: C.shadowSm,
+          transition: `all 200ms ease`,
+          boxShadow: "0 4px 12px rgba(0,0,0,0.5)",
           zIndex: 10,
         }}
-        onMouseOver={(e) => { e.currentTarget.style.background = C.brandSoft; e.currentTarget.style.color = C.brand; }}
-        onMouseOut={(e) => { e.currentTarget.style.background = C.surfaceAlt; e.currentTarget.style.color = C.textDim; }}
+        onMouseOver={(e) => { e.currentTarget.style.background = "var(--color-brand)"; e.currentTarget.style.borderColor = "var(--color-brand-light)"; }}
+        onMouseOut={(e) => { e.currentTarget.style.background = "var(--color-surface-alt)"; e.currentTarget.style.borderColor = "var(--color-border-light)"; }}
       >
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
           {collapsed ? <polyline points="9 18 15 12 9 6"></polyline> : <polyline points="15 18 9 12 15 6"></polyline>}
         </svg>
       </button>
