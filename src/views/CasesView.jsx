@@ -7,6 +7,7 @@ import { C, formatRelative } from "../theme/colors";
 import { Button } from "../components/ui/Button";
 import { Card, CardHeader, CardContent, CardTitle, CardDescription } from "../components/ui/Card";
 import { Badge } from "../components/ui/Badge";
+import { Select } from "../components/ui/Select";
 import { SectionHeading } from "../components/shared";
 import { api } from "../services/api";
 

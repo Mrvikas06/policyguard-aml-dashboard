@@ -36,7 +36,7 @@ export const api = {
   // Transactions
   transactions: {
     list: (params = {}) => {
-      const qs = new URLSearchParams(params).toString();
+      const qs = new URLSearchParams(Object.fromEntries(Object.entries(params).filter(([_, v]) => v !== undefined && v !== ""))).toString();
       return request(`/transactions?${qs}`);
     },
     stats: () => request("/transactions/stats"),
@@ -47,7 +47,7 @@ export const api = {
   // Threats
   threats: {
     list: (params = {}) => {
-      const qs = new URLSearchParams(params).toString();
+      const qs = new URLSearchParams(Object.fromEntries(Object.entries(params).filter(([_, v]) => v !== undefined && v !== ""))).toString();
       return request(`/threats?${qs}`);
     },
     stats: () => request("/threats/stats"),
@@ -70,7 +70,7 @@ export const api = {
   // Cases
   cases: {
     list: (params = {}) => {
-      const qs = new URLSearchParams(params).toString();
+      const qs = new URLSearchParams(Object.fromEntries(Object.entries(params).filter(([_, v]) => v !== undefined && v !== ""))).toString();
       return request(`/cases?${qs}`);
     },
     stats: () => request("/cases/stats"),
@@ -83,7 +83,7 @@ export const api = {
   // Reports
   reports: {
     list: (params = {}) => {
-      const qs = new URLSearchParams(params).toString();
+      const qs = new URLSearchParams(Object.fromEntries(Object.entries(params).filter(([_, v]) => v !== undefined && v !== ""))).toString();
       return request(`/reports?${qs}`);
     },
     types: () => request("/reports/types"),
@@ -95,7 +95,7 @@ export const api = {
   // Network
   network: {
     graph: (params = {}) => {
-      const qs = new URLSearchParams(params).toString();
+      const qs = new URLSearchParams(Object.fromEntries(Object.entries(params).filter(([_, v]) => v !== undefined && v !== ""))).toString();
       return request(`/network/graph?${qs}`);
     },
     highRiskPairs: () => request("/network/high-risk-pairs"),
@@ -113,7 +113,7 @@ export const api = {
   // Scans
   scans: {
     list: (params = {}) => {
-      const qs = new URLSearchParams(params).toString();
+      const qs = new URLSearchParams(Object.fromEntries(Object.entries(params).filter(([_, v]) => v !== undefined && v !== ""))).toString();
       return request(`/scans?${qs}`);
     },
     get: (jobId) => request(`/scans/${jobId}`),
@@ -124,7 +124,7 @@ export const api = {
   // Audit
   audit: {
     list: (params = {}) => {
-      const qs = new URLSearchParams(params).toString();
+      const qs = new URLSearchParams(Object.fromEntries(Object.entries(params).filter(([_, v]) => v !== undefined && v !== ""))).toString();
       return request(`/audit?${qs}`);
     },
     stats: () => request("/audit/stats"),

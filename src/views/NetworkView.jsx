@@ -8,6 +8,7 @@ import { Button } from "../components/ui/Button";
 import { Card, CardHeader, CardContent, CardTitle, CardDescription } from "../components/ui/Card";
 import { Input } from "../components/ui/Input";
 import { Badge } from "../components/ui/Badge";
+import { Separator } from "../components/ui/Separator";
 import { SectionHeading } from "../components/shared";
 import { api } from "../services/api";
 

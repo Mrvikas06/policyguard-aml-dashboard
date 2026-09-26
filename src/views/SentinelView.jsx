@@ -76,7 +76,7 @@ export function SentinelView() {
   return (
     <div style={{ display: "grid", gap: 16 }}>
       <SectionHeading eyebrow="Operational monitoring" title="Sentinel" description="Continuous monitoring for model health, ingestion latency, processing backlog and alert generation." actions={[
-        <Badge variant={connected ? "soft" : "outline"} color={connected ? C.resolved : C.high} size="sm" dot>
+        <Badge key="status" variant={connected ? "soft" : "outline"} color={connected ? C.resolved : C.high} size="sm" dot>
           {connected ? "Connected" : "Disconnected"}
         </Badge>,
       ]} />
