@@ -2,7 +2,7 @@
 
 PolicyGuard is a comprehensive, enterprise-grade Anti-Money Laundering (AML) and compliance intelligence platform. It provides financial analysts and compliance officers with real-time transaction monitoring, interactive network analysis, automated threat detection, and seamless Suspicious Activity Report (SAR) case management.
 
-## 🚀 Key Features
+## Key Features
 
 - **Live Operational Monitoring (Sentinel):** Real-time Change Data Capture (CDC) integration for live transaction feeds, system health monitoring, and detection engine latency metrics.
 - **Threat Intelligence Registry:** Advanced threat management with dynamic filtering, pagination, confidence scoring, and rule-based evaluation.
@@ -10,7 +10,7 @@ PolicyGuard is a comprehensive, enterprise-grade Anti-Money Laundering (AML) and
 - **Case Management Workflow:** End-to-end SAR workflow (New → Investigating → Escalated → Resolved) with integrated analyst notes and automated case summaries.
 - **Enterprise Design System:** A highly polished, data-dense, dark-mode UI focused on clean data visualization, precise typography, and optimized performance for an exceptional developer and user experience.
 
-## 🛠️ Technology Stack
+## Technology Stack
 
 **Frontend**
 - React 19 + Vite for high-performance rendering and HMR.
@@ -22,7 +22,7 @@ PolicyGuard is a comprehensive, enterprise-grade Anti-Money Laundering (AML) and
 - SQLite database for lightweight, local persistence (`better-sqlite3`).
 - Zod for strict runtime schema validation and error boundary protection.
 
-## 📁 Project Architecture
+## Project Architecture
 
 ```text
 policyguard-aml-dashboard/
@@ -41,7 +41,7 @@ policyguard-aml-dashboard/
 │   └── index.css              # Global styles and theme variables
 ```
 
-## 🚦 Getting Started
+## Getting Started
 
 ### Prerequisites
 - Node.js (v18+)
@@ -72,7 +72,7 @@ policyguard-aml-dashboard/
    # Runs on http://localhost:5173
    ```
 
-## 🔧 Development Notes
+## Development Notes
 
 - **Data Simulation:** The backend currently seeds mock AML data on initialization to facilitate immediate UI testing.
 - **Theming:** All colors, spacing, and typography are controlled via CSS variables in `src/index.css`. Modify this file to alter the global theme.
