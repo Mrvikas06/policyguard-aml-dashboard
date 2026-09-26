@@ -1,31 +1,83 @@
-# PolicyGuard AI — AML Intelligence Dashboard
+# PolicyGuard AI — AML Intelligence Platform
 
-PolicyGuard AI is a React + Vite dashboard for anti-money-laundering operations, policy review, live CDC monitoring, network analysis, and compliance reporting.
+PolicyGuard AI is a comprehensive, AI-driven Anti-Money Laundering (AML) and compliance intelligence platform. It provides financial analysts and compliance officers with real-time transaction monitoring, interactive network analysis, automated threat detection, and seamless Suspicious Activity Report (SAR) case management.
 
-## Highlights
+## 🚀 Key Features
 
-- Professional AI-style dashboard layout
-- Shadcn-inspired reusable UI primitives
-- Threat registry with search and filters
-- Policy extraction simulation
-- Scanner and CDC monitor simulations
-- Compliance reporting workflow
+- **Live Operational Monitoring (Sentinel):** Real-time Change Data Capture (CDC) integration for live transaction feeds, system health monitoring, and AI pipeline latency metrics.
+- **Threat Intelligence Registry:** Advanced threat management with dynamic filtering, pagination, confidence scoring, and rule-based evaluation.
+- **Network Graph Analysis:** Interactive visualization of transaction flows and high-risk entity connections to uncover sophisticated laundering rings.
+- **Case Management Workflow:** End-to-end SAR workflow (New → Investigating → Escalated → Resolved) with integrated analyst notes and AI-generated summaries.
+- **Cyber Obsidian Design System:** A highly polished, data-dense, dark-mode first UI using glassmorphism, precise typography, and micro-animations for an exceptional developer and user experience.
 
-## Stack
+## 🛠️ Technology Stack
 
-- React 19
-- Vite
-- Custom shadcn-inspired design system
-- Canvas and SVG visualizations
+**Frontend**
+- React 19 + Vite for high-performance rendering and HMR.
+- Custom Shadcn-inspired UI components (CSS variables, flex/grid layouts).
+- Custom SVG and Canvas implementations for network graphing.
 
-## Run locally
+**Backend**
+- Node.js & Express.js RESTful API.
+- SQLite database for lightweight, local persistence (`better-sqlite3`).
+- Zod for strict runtime schema validation and error boundary protection.
 
-```bash
-npm install
-npm run dev
+## 📁 Project Architecture
+
+```text
+policyguard-aml-dashboard/
+├── backend/                   # Node.js + Express backend
+│   ├── src/
+│   │   ├── routes/            # API route handlers (threats, cases, network, etc.)
+│   │   ├── middleware/        # Global error handlers and auth logic
+│   │   ├── db/                # SQLite connection and schemas
+│   │   └── index.js           # Express server entry point
+│   └── data/                  # SQLite database file (.db)
+├── src/                       # React Frontend
+│   ├── components/            # Reusable UI primitives (Button, Card, Badge)
+│   ├── views/                 # Top-level page components (Sentinel, Threats, Cases)
+│   ├── services/              # API client integration (api.js)
+│   ├── theme/                 # Design system tokens (colors.js)
+│   └── index.css              # Global styles and "Cyber Obsidian" theme variables
 ```
 
-## Notes
+## 🚦 Getting Started
 
-- The dashboard uses simulated AML data and interactions.
-- The UI is tuned for a polished product-demo presentation.
+### Prerequisites
+- Node.js (v18+)
+- npm or yarn
+
+### Installation & Setup
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/Mrvikas06/policyguard-aml-dashboard.git
+   cd policyguard-aml-dashboard
+   ```
+
+2. **Start the Backend Server**
+   ```bash
+   cd backend
+   npm install
+   npm run dev
+   # Runs on http://localhost:3001
+   ```
+
+3. **Start the Frontend Application**
+   Open a new terminal window:
+   ```bash
+   # From the project root
+   npm install
+   npm run dev
+   # Runs on http://localhost:5173
+   ```
+
+## 🔧 Development Notes
+
+- **Data Simulation:** The backend currently seeds mock AML data on initialization to facilitate immediate UI testing.
+- **Theming:** All colors, spacing, and typography are controlled via CSS variables in `src/index.css`. Modify this file to alter the global theme.
+- **API Error Handling:** The backend uses strict `zod` validation. Ensure API payloads and query parameters strictly match the expected schemas to prevent 400 Validation Errors.
+
+---
+
+*Designed and engineered for modern compliance teams.*
