@@ -1,14 +1,14 @@
-# PolicyGuard AI — AML Intelligence Platform
+# PolicyGuard — AML Intelligence Platform
 
-PolicyGuard AI is a comprehensive, AI-driven Anti-Money Laundering (AML) and compliance intelligence platform. It provides financial analysts and compliance officers with real-time transaction monitoring, interactive network analysis, automated threat detection, and seamless Suspicious Activity Report (SAR) case management.
+PolicyGuard is a comprehensive, enterprise-grade Anti-Money Laundering (AML) and compliance intelligence platform. It provides financial analysts and compliance officers with real-time transaction monitoring, interactive network analysis, automated threat detection, and seamless Suspicious Activity Report (SAR) case management.
 
 ## 🚀 Key Features
 
-- **Live Operational Monitoring (Sentinel):** Real-time Change Data Capture (CDC) integration for live transaction feeds, system health monitoring, and AI pipeline latency metrics.
+- **Live Operational Monitoring (Sentinel):** Real-time Change Data Capture (CDC) integration for live transaction feeds, system health monitoring, and detection engine latency metrics.
 - **Threat Intelligence Registry:** Advanced threat management with dynamic filtering, pagination, confidence scoring, and rule-based evaluation.
 - **Network Graph Analysis:** Interactive visualization of transaction flows and high-risk entity connections to uncover sophisticated laundering rings.
-- **Case Management Workflow:** End-to-end SAR workflow (New → Investigating → Escalated → Resolved) with integrated analyst notes and AI-generated summaries.
-- **Cyber Obsidian Design System:** A highly polished, data-dense, dark-mode first UI using glassmorphism, precise typography, and micro-animations for an exceptional developer and user experience.
+- **Case Management Workflow:** End-to-end SAR workflow (New → Investigating → Escalated → Resolved) with integrated analyst notes and automated case summaries.
+- **Enterprise Design System:** A highly polished, data-dense, dark-mode UI focused on clean data visualization, precise typography, and optimized performance for an exceptional developer and user experience.
 
 ## 🛠️ Technology Stack
 
@@ -38,7 +38,7 @@ policyguard-aml-dashboard/
 │   ├── views/                 # Top-level page components (Sentinel, Threats, Cases)
 │   ├── services/              # API client integration (api.js)
 │   ├── theme/                 # Design system tokens (colors.js)
-│   └── index.css              # Global styles and "Cyber Obsidian" theme variables
+│   └── index.css              # Global styles and theme variables
 ```
 
 ## 🚦 Getting Started
